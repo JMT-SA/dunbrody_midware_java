@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_midware" default="compile.module.midware">
+  <dirname property="module.midware.basedir" file="${ant.file.module_midware}"/>
+  
+  <property name="module.jdk.home.midware" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.midware" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.midware" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.midware" value="${compiler.args}"/>
+  
+  <property name="midware.output.dir" value="${module.midware.basedir}/out/production/midware"/>
+  <property name="midware.testoutput.dir" value="${module.midware.basedir}/out/test/midware"/>
+  
+  <path id="midware.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="midware.module.production.classpath">
+    <path refid="${module.jdk.classpath.midware}"/>
+  </path>
+  
+  <path id="midware.runtime.production.module.classpath">
+    <pathelement location="${midware.output.dir}"/>
+  </path>
+  
+  <path id="midware.module.classpath">
+    <path refid="${module.jdk.classpath.midware}"/>
+    <pathelement location="${midware.output.dir}"/>
+  </path>
+  
+  <path id="midware.runtime.module.classpath">
+    <pathelement location="${midware.output.dir}"/>
+    <pathelement location="${midware.testoutput.dir}"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.midware">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.midware">
+    <patternset refid="excluded.from.module.midware"/>
+  </patternset>
+  
+  <path id="midware.module.sourcepath">
+    <dirset dir="${module.midware.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.midware" depends="compile.module.midware.production,compile.module.midware.tests" description="Compile module midware"/>
+  
+  <target name="compile.module.midware.production" description="Compile module midware; production classes">
+    <mkdir dir="${midware.output.dir}"/>
+    <javac2 destdir="${midware.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.midware}/javac">
+      <compilerarg line="${compiler.args.midware}"/>
+      <bootclasspath refid="midware.module.bootclasspath"/>
+      <classpath refid="midware.module.production.classpath"/>
+      <src refid="midware.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.midware"/>
+    </javac2>
+    
+    <copy todir="${midware.output.dir}">
+      <fileset dir="${module.midware.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.midware.tests" depends="compile.module.midware.production" description="compile module midware; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.midware" description="cleanup module">
+    <delete dir="${midware.output.dir}"/>
+    <delete dir="${midware.testoutput.dir}"/>
+  </target>
+</project>
