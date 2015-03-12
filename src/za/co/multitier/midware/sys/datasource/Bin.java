@@ -60,6 +60,8 @@ public class Bin {
     
     private Double material_mass;
 
+    private String orchard_code;
+
 
 
     //---------
@@ -299,5 +301,13 @@ public class Bin {
 
     public void setVariety_group_code(String variety_group_code) {
         this.variety_group_code = variety_group_code;
+    }
+
+    public String getOrchard_code() {
+        return orchard_code;
+    }
+
+    public void setOrchard_code(String orchard_code) {
+        this.orchard_code = orchard_code;
     }
 }

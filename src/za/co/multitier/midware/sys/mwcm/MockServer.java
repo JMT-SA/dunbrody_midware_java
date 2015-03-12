@@ -64,7 +64,7 @@ public class MockServer {
 
            try
            {
-            result = BinTippingScan.scanBin(bintip_ip,bin_scanned,getButton((int) button),"TIP-01",mass );
+            result = BinTippingScan.scanBin(bintip_ip,bin_scanned,getButton((int) button),"TIP-03",mass );
            }
            catch(Exception e)
            {

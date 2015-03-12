@@ -45,6 +45,8 @@ public class ProductionRun
 
 	private String production_run_code;
 
+	private String orchard_code;
+
 
 
 
@@ -176,4 +178,12 @@ public class ProductionRun
     public void setSeason(String season) {
         this.season = season;
     }
+
+	public String getOrchard_code() {
+		return orchard_code;
+	}
+
+	public void setOrchard_code(String orchard_code) {
+		this.orchard_code = orchard_code;
+	}
 }

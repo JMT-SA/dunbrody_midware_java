@@ -75,10 +75,25 @@ public class BinTippingDAO {
     public static String validate(String bin_number,int bin_tipping_setup_id,ProductionRun run) throws Exception {
         try {
 
-        
+
             Bin bin = getBin(bin_number);
             if (bin == null) {
                 return "BIN NOT FOUND";
+            }
+
+            if (run.getOrchard_code() != null)
+            {
+                if(bin.getOrchard_code() == null)
+                    return "BIN MUST HAVE ORCH FOR RUN";
+
+                if(bin.getFarm_code() == null)
+                    return "BIN MUST HAVE FARM FOR RUN";
+
+                if(!(bin.getFarm_code().equals(run.getFarm_code())))
+                    return "BIN FARM: " + bin.getFarm_code() + ". RUN: " + run.getFarm_code();
+
+              if (!(bin.getOrchard_code().equals(run.getOrchard_code())))
+                  return "BIN ORCH: " +  bin.getOrchard_code()  + ". RUN: " + run.getOrchard_code();
             }
 
 
