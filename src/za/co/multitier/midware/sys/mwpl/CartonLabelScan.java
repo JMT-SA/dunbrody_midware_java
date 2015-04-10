@@ -13,7 +13,7 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 //import za.co.multitier.mesware.messages.MailInterface;
-import za.co.multitier.mesware.services.gsm.GsmServerInterface;
+//import za.co.multitier.mesware.services.gsm.GsmServerInterface;
 
 import za.co.multitier.mesware.messages.MessageInterface;
 import za.co.multitier.midware.sys.appservices.DeviceScan;

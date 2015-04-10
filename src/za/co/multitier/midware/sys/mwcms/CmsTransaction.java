@@ -23,7 +23,7 @@ import za.co.multitier.mesware.messages.MessageInterface;
 
 import za.co.multitier.mesware.util.TransactionData;
 
-import za.co.multitier.mesware.sys.mwpl.PlConstants;
+//import za.co.multitier.mesware.sys.mwpl.PlConstants;
 
 public class CmsTransaction
 {
@@ -148,13 +148,14 @@ public class CmsTransaction
 						trData.addRecordToReturnData(resultStr);
                         break;
                         
-                    case PlConstants.MODEPC		: ; // Packing station number only
-                    case PlConstants.MODEI2		: ; // PStation Nr + Personnel Nr.....
-                    case PlConstants.MODEI2U	: ; // PStation Nr + undefined length personnel number
-                    case PlConstants.MODEI2M	: ; // Input1 + Input3(mass)....
+                   // case PlConstants.MODEPC		: ; // Packing station number only
+                   // case PlConstants.MODEI2		: ; // PStation Nr + Personnel Nr.....
+                   // case PlConstants.MODEI2U	: ; // PStation Nr + undefined length personnel number
+                   // case PlConstants.MODEI2M	: ; // Input1 + Input3(mass)....
                   //  case PlConstants.MODEI3		: ; // Input1 + Input2 + Input3(mass)....
                   //  case PlConstants.MODEI3U	: ; // PStation Nr + undefined length personnel number + Input3 (mass)
-                        resultStr = processTransactionIntake(trData.codeCollection); // i.e. input[0], input[1] & input[3]
+					case 1:
+                        resultStr = "";//processTransactionIntake(trData.codeCollection); // i.e. input[0], input[1] & input[3]
                         //
                         // Override with demo string...
                         //
