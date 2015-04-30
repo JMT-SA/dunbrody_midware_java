@@ -128,9 +128,7 @@ public class CmTransaction {
      * Description: Commit after MES layer has determined...
      * This method is called by Mesware after the business transaction has been processed (but not committed)
      *
-     * @param Boolean (True=OK to commit)
-     * @return Boolean (True=Commit successful)
-     * @throws Sit Potensieele MidWare exceptions hier en in die code
+
      */
     public synchronized boolean commitTransaction(boolean commit) {
         //
@@ -144,7 +142,7 @@ public class CmTransaction {
      * Description: Processes incoming data for this particular application...
      * This method is called by Mesware after receiving incoming scan
      *
-     * @param String (Calling IP Number)
+
      * @return String (scan code)
      * @throws NullPointerException
      */
@@ -186,6 +184,8 @@ public class CmTransaction {
             //System.out.println("BT 4");
             bin_tipper_name = trData.moduleName;
 
+
+
             if (trData.moduleName != null||trData.moduleName.equals(""))
             {
                 System.out.println("module: " + trData.moduleName);
@@ -193,6 +193,9 @@ public class CmTransaction {
             }
             else
             System.out.println("BIN TIPPING: module name is null or empty");
+
+
+            System.out.println("tipper name: " + bin_tipper_name);
 //                bin_tipper_name = "TIP-01";
             //throw new Exception("Bintipper module name not provided by server");
             
@@ -294,7 +297,7 @@ public class CmTransaction {
      *
      * @return String (result string)
      * @throws NullPointerException, NumberFormatException
-     * @param        String (scan code)
+
      */
     public synchronized String processBinTransactionData(String scanCode) {
 //		String		resultStr	= "";
@@ -358,7 +361,7 @@ public class CmTransaction {
      *
      * @return String (result string)
      * @throws NullPointerException, NumberFormatException
-     * @param        String (scan code)
+
      */
     public synchronized String processCartonTransactionData(String scanCode) {
 //		String		resultStr	= "";

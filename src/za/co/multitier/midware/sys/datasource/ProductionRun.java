@@ -47,6 +47,8 @@ public class ProductionRun
 
 	private String orchard_code;
 
+	private String gap;
+
 
 
 
@@ -185,5 +187,13 @@ public class ProductionRun
 
 	public void setOrchard_code(String orchard_code) {
 		this.orchard_code = orchard_code;
+	}
+
+	public String getGap() {
+		return gap;
+	}
+
+	public void setGap(String gap) {
+		this.gap = gap;
 	}
 }

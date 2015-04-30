@@ -42,7 +42,21 @@ public class FgSetup {
     private java.sql.Timestamp created_on;
     private Integer fg_setup_id;
     private String farm_code;
-    
+
+    private String commodity_code;
+    private String variety_description;
+    private String commodity_description;
+    private String grade_code;
+    private String pack_code;
+
+
+    private String gap;
+    private String size_ref;
+    private String size_count_code;
+    private String orchard_code;
+
+
+
     private Double calculated_mass;
     
 
@@ -301,5 +315,77 @@ public class FgSetup {
 
     public void setCalculated_mass(Double calculated_mass) {
         this.calculated_mass = calculated_mass;
+    }
+
+    public String getCommodity_code() {
+        return commodity_code;
+    }
+
+    public void setCommodity_code(String commodity_code) {
+        this.commodity_code = commodity_code;
+    }
+
+    public String getVariety_description() {
+        return variety_description;
+    }
+
+    public void setVariety_description(String variety_description) {
+        this.variety_description = variety_description;
+    }
+
+    public String getCommodity_description() {
+        return commodity_description;
+    }
+
+    public void setCommodity_description(String commodity_description) {
+        this.commodity_description = commodity_description;
+    }
+
+    public String getGrade_code() {
+        return grade_code;
+    }
+
+    public void setGrade_code(String grade_code) {
+        this.grade_code = grade_code;
+    }
+
+    public String getPack_code() {
+        return pack_code;
+    }
+
+    public void setPack_code(String pack_code) {
+        this.pack_code = pack_code;
+    }
+
+    public String getGap() {
+        return gap;
+    }
+
+    public void setGap(String gap) {
+        this.gap = gap;
+    }
+
+    public String getSize_ref() {
+        return size_ref;
+    }
+
+    public void setSize_ref(String size_ref) {
+        this.size_ref = size_ref;
+    }
+
+    public String getSize_count_code() {
+        return size_count_code;
+    }
+
+    public void setSize_count_code(String size_count_code) {
+        this.size_count_code = size_count_code;
+    }
+
+    public String getOrchard_code() {
+        return orchard_code;
+    }
+
+    public void setOrchard_code(String orchard_code) {
+        this.orchard_code = orchard_code;
     }
 }

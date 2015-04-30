@@ -186,6 +186,21 @@ public class ProductLabelingDAO
         }
 
     }
+
+
+	public static Carton getCartonLabel(Long carton_number) throws Exception
+	{
+		try
+		{
+
+			Carton carton_label = (Carton) DataSource.getSqlMapInstance().queryForObject("getCartonLabel", carton_number);
+			return carton_label;
+		} catch (SQLException ex)
+		{
+			throw new Exception("Carton label  could not be fetched. Reported exception: " + ex);
+		}
+
+	}
         
 
 	
@@ -377,6 +392,44 @@ public class ProductLabelingDAO
 			throw new Exception("Carton could not be created. Reported exception: " + ex);
 		}
 		
+	}
+
+
+	public static void createCartonLabel(FgSetup carton_template) throws Exception
+	{
+		try
+		{
+
+			DataSource.getSqlMapInstance().insert("createCartonLabel",carton_template);
+			//updateRunStats(new_carton,null);
+			//updateCartonRunStats(new_carton);
+			// DataSource.getSqlMapInstance().update("incrementCartonsPrinted",new_carton);
+			//DataSource.getSqlMapInstance().update("addCartonWeight",new_carton);
+
+		} catch (SQLException ex)
+		{
+			throw new Exception("Carton Label could not be created. Reported exception: " + ex);
+		}
+
+	}
+
+
+	public static void createCartonFromLabel(Carton label) throws Exception
+	{
+		try
+		{
+
+			DataSource.getSqlMapInstance().insert("createCartonFromLabel",label);
+			//updateRunStats(new_carton,null);
+			//updateCartonRunStats(new_carton);
+			// DataSource.getSqlMapInstance().update("incrementCartonsPrinted",new_carton);
+			//DataSource.getSqlMapInstance().update("addCartonWeight",new_carton);
+
+		} catch (SQLException ex)
+		{
+			throw new Exception("Carton could not be created from label. Reported exception: " + ex);
+		}
+
 	}
 	
         public synchronized static void updateRunStats(FgSetup carton,Bin bin) throws Exception

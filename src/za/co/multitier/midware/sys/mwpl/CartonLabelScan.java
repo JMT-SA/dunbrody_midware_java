@@ -26,13 +26,20 @@ import za.co.multitier.midware.sys.datasource.*;
  */
 public class CartonLabelScan extends ProductLabelScan {
 
+
+    public static final int MODE_LINE_SCANNING = 6;
+    public static final int MODE_ROBOT_QC_SCANNING = 11;
+    public static final int MODE_ROBOT_SCANNING = 12;
+
+
+
     /** Creates a new instance of CartonLabelScan */
-    public CartonLabelScan(String ip, String mass, String codeCollection[], MessageInterface msg) {
-        super(ip, mass, codeCollection, msg);
+    public CartonLabelScan(String ip, String mass, String codeCollection[], MessageInterface msg,int mode) {
+        super(ip, mass, codeCollection, msg,mode);
     }
 
-    public CartonLabelScan(String ip, String mass, String codeCollection[]) {
-        super(ip, mass, codeCollection);
+    public CartonLabelScan(String ip, String mass, String codeCollection[],int mode) {
+        super(ip, mass, codeCollection,mode);
     }
 
 
@@ -81,6 +88,9 @@ public class CartonLabelScan extends ProductLabelScan {
             throw new Exception("Packhouse has null value for resource_number") ;
 
 
+        Map data = this.label_data;
+
+
 
         try {
             //Pick ref, bit tricky
@@ -126,6 +136,9 @@ public class CartonLabelScan extends ProductLabelScan {
         fg_setup.setCarton_number(this.carton_num);
         fg_setup.setDrop_resource_id(this.active_device.getResource_id());
         fg_setup.setPack_date_time(new java.sql.Timestamp(new java.util.Date().getTime()));
+        fg_setup.setGap(run.getGap());
+        fg_setup.setOrchard_code(run.getOrchard_code());
+
 
         try {
             double real_mass = Double.parseDouble(this.mass);
@@ -170,6 +183,31 @@ public class CartonLabelScan extends ProductLabelScan {
             fg_setup.setCalculated_mass(calculated_mass);
 
 
+        String orchard = fg_setup.getOrchard_code() == null? "mixed" : fg_setup.getOrchard_code();
+        String gap = fg_setup.getGap() == null? "":fg_setup.getGap();
+
+        data.put("F1",fg_setup.getCarton_number().toString());
+        data.put("F2",fg_setup.getCommodity_code());
+        data.put("F3",fg_setup.getVariety_description());
+        data.put("F4",fg_setup.getCommodity_description());
+        data.put("F5",fg_setup.getProduction_run_id().toString());
+        data.put("F6",fg_setup.getGrade_code());
+        data.put("F7",fg_setup.getPack_code());
+        data.put("F8",fg_setup.getOrganization_code());
+        data.put("F9","L3999");
+        data.put("F10",fg_setup.getInventory_code());
+        data.put("F11",fg_setup.getPick_reference().toString());
+        data.put("F12",fg_setup.getPuc() + "/" + orchard);
+        data.put("F13",gap);
+        data.put("F14",fg_setup.getSize_ref() + "/" + fg_setup.getSize_count_code());
+        data.put("F16",fg_setup.getPacker_barcode());
+        data.put("F18",fg_setup.getPacked_tm_group_code());
+        data.put("F19",this.getFormattedNowDate());
+
+
+
+
+
 
         return null;
 
@@ -189,19 +227,30 @@ public class CartonLabelScan extends ProductLabelScan {
 
     protected String post_labeling_transaction() throws Exception {
 
+        String ok_msg = "";
 
         DataSource.getSqlMapInstance().startTransaction();
         
+        if(this.mode == CartonLabelScan.MODE_LINE_SCANNING) {
+            ProductLabelingDAO.createCarton(fg_setup);
+            ok_msg = "Carton created for drop: " + this.codeCollection[0] + " and scanner: " + this.codeCollection[1];
 
-        ProductLabelingDAO.createCarton(fg_setup);
+        }
+        else {
+            ProductLabelingDAO.createCartonLabel(fg_setup);
+            ok_msg = "Label created for drop: " + this.codeCollection[0] + " and scanner: " + this.codeCollection[1];
+
+        }
+
+
         ProductLabelingDAO.updateRunStats(fg_setup,null);
+
+
         za.co.multitier.midware.sys.datasource.DataSource.getSqlMapInstance().commitTransaction(); //remove for live
 
 
-       
-        String ok_msg = "Carton created for drop: " + this.codeCollection[0] + " and scanner: " + this.codeCollection[1];
         String result = String.format(ProductLabelScan.LABEL_MSG,ok_msg,"PROD: " + ProductLabelingDAO.getFgProductCode(fg_setup.getFg_product_id()),"SETUP: " + ProductLabelingDAO.getFgSetupCode(fg_setup.getFg_setup_id()));
-        System.out.println(result);
+        //System.out.println(result);
         return result;
 
         //this.getPltransaction().set_do_db_transactio(true);    //uncomment for live

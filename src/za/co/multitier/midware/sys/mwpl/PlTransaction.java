@@ -249,11 +249,11 @@ public class PlTransaction {
                 }
             }
 
-            System.out.println("STEP 8");
+            //System.out.println("STEP 8");
 
             LogBeginTransaction(destinationIP, scancode1, scancode2, modeStr, mass);
 
-            System.out.println("STEP 9");
+            //System.out.println("STEP 9");
             this.ip = destinationIP;
             this.station = scancode1;
             this.temp_scancode1 = scancode1;
@@ -303,14 +303,14 @@ public class PlTransaction {
 //						codeCollection[0] +
 //						" Ok...\" />";
                     //System.out.println("about to call carton label scan trans: " + resultStr);
-                    System.out.println("STEP 10");
-                    this.labeling_scan = new CartonLabelScan(destinationIP, mass, codeCollection, msg);
+                    //System.out.println("STEP 10");
+                    this.labeling_scan = new CartonLabelScan(destinationIP, mass, codeCollection, msg,mode);
                     this.labeling_scan.set_transaction(this);
 
                     resultStr = labeling_scan.processLabelScan();
                     //System.out.println("result string: " + resultStr);
 
-                    System.out.println("STEP 11" + resultStr );
+                    //System.out.println("STEP 11" + resultStr );
                     // or...
                     // "\" F0=\"E2\" F1=\"GDL\" F2=\"GDL LOCAL\" F3=\"7_IMIBALA\" F4=\"20050815451318\" F5=\"20050815\" F6=\"451318\" F7=\"1A\" F8=\"1A\" F9=\"1A_GDL\" F10=\"GDL_GOLDEN DELI\" F11=\"20050815451318\" F12=\"20050815451318\" F13=\"20050815451318\" F14=\"20050815451318\" F15=\"20050815451318\" Msg=\"Labelling product " + codeCollection[0] + " ok...\"/>";
                     break;
@@ -322,9 +322,9 @@ public class PlTransaction {
                     // Inserting demo string for now...
                     //
 					resultStr =
-						SysProtocol.TPRODUCTLABEL + "Status=\"true\" RunNumber=\"KRM-E4-44-44\" Code=\"" +
+						SysProtocol.TPRODUCTLABEL + "Status=\"true\" RunNumber=\"KRM-E4-44-44\" Printer=\"PRN-0001\" Code=\"" +
 						codeCollection[0] +
-						"\" F0=\"E4\" F1=\"GRANNYS RA\" F2=\"GSG\" F3=\"COUNTS\" F4=\"MIXED\" F5=\"8\" F6=\"20A\" F7=\"20060526693885\" F8=\"53 kg\" F9=\"1\" F10=\"26 May 2006\" F11=\"DFGSD\" Msg=\"Carton " +
+						"\" F0=\"DATA-Dunbrody_Zebra.ZPL\" F1=\"123456789\" F2=\"GSG\" F3=\"COUNTS\" F4=\"MIXED\" F5=\"8\" F6=\"20A\" F7=\"20060526693885\" F8=\"53 kg\" F9=\"1\" F10=\"26 May 2006\" F11=\"DFGSD\" F12=\"DFGSD\" F13=\"DFGSD\" F14=\"DFGSD\" F15=\"1111111111111\" F16=\"DFGSD\" F17=\"DFGSD\" F18=\"DFGSD\" F19=\"DFGSD\" F20=\"DFGSD\" Msg=\"Carton " +
 						codeCollection[0] +
 						" Ok...\" />";
 
@@ -387,7 +387,7 @@ public class PlTransaction {
             }
 
             trData.addRecordToReturnData(resultStr);
-            //System.out.println("FINALLY: " + resultStr);
+           // System.out.println("FINALLY: " + resultStr);
 
             try {
 
