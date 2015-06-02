@@ -18,6 +18,9 @@ public class ActiveRunResource {
     private int production_run_id;
     private String production_run_code;
 
+    private String template_name;
+    private String static_label;
+
 
     private String line_code;
     
@@ -111,5 +114,21 @@ public class ActiveRunResource {
 
     public void setLine_id(int line_id) {
         this.line_id = line_id;
+    }
+
+    public String getTemplate_name() {
+        return template_name;
+    }
+
+    public void setTemplate_name(String template_name) {
+        this.template_name = template_name;
+    }
+
+    public String getStatic_label() {
+        return static_label;
+    }
+
+    public void setStatic_label(String static_label) {
+        this.static_label = static_label;
     }
 }

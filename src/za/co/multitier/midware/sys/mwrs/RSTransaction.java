@@ -14,8 +14,7 @@ import za.co.multitier.sys.SysInterface;
 
 
 import za.co.multitier.mesware.messages.MessageInterface;
-//import za.co.multitier.mesware.messages.MailInterface;
-//import za.co.multitier.mesware.messages.SmsInterface;
+import za.co.multitier.mesware.services.email.MailInterface;
 
 import za.co.multitier.mesware.util.TransactionData;
 import za.co.multitier.midware.sys.appservices.PdtSymbol6800;
@@ -31,8 +30,8 @@ public class RSTransaction
 	// Interfaces
 	//
 	private static MessageInterface     msg             = null; // Implies msg must be available!!
-	//private static MailInterface        mail            = null; // Implies mail must be available!!
-	//private static SmsInterface         sms				= null; // Implies sms must be available!!
+	private static MailInterface        mail            = null; // Implies mail must be available!!
+
 
 	private SysInterface				trn				= null;
 
@@ -46,6 +45,8 @@ public class RSTransaction
 	 *
 	 *
 
+	 * @return void
+
 	 */
 	public RSTransaction()
 	{
@@ -56,7 +57,9 @@ public class RSTransaction
 	 * Description: RSTransaction base class constructor
 	 *
 	 *
-	 *
+
+	 * @return void
+
 	 */
 	public RSTransaction(SysInterface trn, TransactionData trData)
 	{
@@ -66,8 +69,8 @@ public class RSTransaction
 		this.trData = trData;
 
         this.msg 	= trData.msg;
-		//this.mail	= trData.mailClient;
-		//this.sms	= trData.smsClient;
+		this.mail	= trData.mailClient;
+
 	}
 
     // *************************************************************************
@@ -95,7 +98,6 @@ public class RSTransaction
 	 * Description: Processes incoming data for this particular application...
 	 * 				This method is called by Mesware after receiving incoming call
 
-	 * @return      String (Mode)
 	 * @return      String (Argument string)
 	 * @exception   NullPointerException
 	 */
@@ -189,7 +191,7 @@ public class RSTransaction
                  case 2:
                  {
                      //System.out.println("case 2 called");
-                     resultStr = PdtSymbol6800.handle_request("4","RequestServer",args,null,null,destinationIP);
+                     //resultStr = PdtSymbol6800.handle_request("4","RequestServer",args,null,null,destinationIP,operator);
 
                      // resultStr = SysProtocol.TREQUESTSERVER + "Status=\"true\" LCD1=\"Line 1\" LCD2=\"Line 2\" LCD3=\"Line 3\" LCD4=\"Line 4\" LCD5=\"Line 5\" LCD6=\"Line 6\" />";
                      break;

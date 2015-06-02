@@ -291,6 +291,9 @@ public class PlTransaction {
                     break;
 
                 case 6:
+                case 11:
+                case 12:
+
                     ;
                     // resultStr = processTransactionMode_6(codeCollection, mass);
                     //
@@ -387,7 +390,7 @@ public class PlTransaction {
             }
 
             trData.addRecordToReturnData(resultStr);
-           // System.out.println("FINALLY: " + resultStr);
+
 
             try {
 

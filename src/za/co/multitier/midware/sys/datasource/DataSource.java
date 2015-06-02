@@ -30,6 +30,7 @@ public class DataSource {
 
 
             MyClassPath.addFile("/opt/jmt/midware_config");
+            //MyClassPath.addFile("E:/jmt/midware_config");
 
             System.out.println("About to load database config file");
             String resource = "map_files/config.xml";

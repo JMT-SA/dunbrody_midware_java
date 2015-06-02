@@ -30,6 +30,7 @@ public class CartonLabelScan extends ProductLabelScan {
     public static final int MODE_LINE_SCANNING = 6;
     public static final int MODE_ROBOT_QC_SCANNING = 11;
     public static final int MODE_ROBOT_SCANNING = 12;
+    //public static final String R
 
 
 
@@ -58,6 +59,9 @@ public class CartonLabelScan extends ProductLabelScan {
     String line2;
 
     protected String setLabelData() throws Exception {
+
+
+
         boolean error = false;
 
         this.fg_setup = ProductLabelingDAO.getFgSetup(this.active_device.getSetup_detail_id());
@@ -67,6 +71,8 @@ public class CartonLabelScan extends ProductLabelScan {
 
 
         }
+
+
 
         run = ProductLabelingDAO.getProductionRun(this.active_device.getProduction_run_id());
         if (run == null) {
@@ -80,6 +86,8 @@ public class CartonLabelScan extends ProductLabelScan {
         int packhouse_id = ProductLabelingDAO.getLinePackHouseId(run.getLine_id());
 
         Resource packhouse = ProductLabelingDAO.getResource(packhouse_id);
+
+
 
 
         Integer  res_no = packhouse.getResource_number();
@@ -140,6 +148,7 @@ public class CartonLabelScan extends ProductLabelScan {
         fg_setup.setOrchard_code(run.getOrchard_code());
 
 
+
         try {
             double real_mass = Double.parseDouble(this.mass);
 
@@ -149,6 +158,7 @@ public class CartonLabelScan extends ProductLabelScan {
             }
         } finally {
         }
+
 
 
         HashMap shift = ProductLabelingDAO.getShift(run.getLine_id(),"packer",this.codeCollection[1]);
@@ -172,6 +182,8 @@ public class CartonLabelScan extends ProductLabelScan {
         fg_setup.setProduction_run_id(run.getId());
         fg_setup.setShift_id((Integer)shift.get("id"));
 
+
+
         Double calculated_mass = ProductLabelingDAO.getCartonCalculatedMass(fg_setup.getFg_product_id());
         line2 = active_device.getProduction_run_code();
         if(calculated_mass == null||calculated_mass < 1.00)
@@ -181,6 +193,8 @@ public class CartonLabelScan extends ProductLabelScan {
         }
         else
             fg_setup.setCalculated_mass(calculated_mass);
+
+
 
 
         String orchard = fg_setup.getOrchard_code() == null? "mixed" : fg_setup.getOrchard_code();
@@ -199,13 +213,16 @@ public class CartonLabelScan extends ProductLabelScan {
         data.put("F11",fg_setup.getPick_reference().toString());
         data.put("F12",fg_setup.getPuc() + "/" + orchard);
         data.put("F13",gap);
-        data.put("F14",fg_setup.getSize_ref() + "/" + fg_setup.getSize_count_code());
+
+        if(fg_setup.getCommodity_code().toUpperCase().equals("SC"))
+            data.put("F14",fg_setup.getSize_count_code() + "/" + fg_setup.getSize_ref());
+        else
+            data.put("F14",fg_setup.getSize_ref() + "/" + fg_setup.getSize_count_code());
+
+
         data.put("F16",fg_setup.getPacker_barcode());
         data.put("F18",fg_setup.getPacked_tm_group_code());
         data.put("F19",this.getFormattedNowDate());
-
-
-
 
 
 

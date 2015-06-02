@@ -81,7 +81,7 @@ public class BinTippingDAO {
                 return "BIN NOT FOUND";
             }
 
-            if (run.getOrchard_code() != null)
+            if (run.getOrchard_code() != null && !(run.getOrchard_code().trim().equals("")))
             {
                 if(bin.getOrchard_code() == null)
                     return "BIN MUST HAVE ORCH FOR RUN";
