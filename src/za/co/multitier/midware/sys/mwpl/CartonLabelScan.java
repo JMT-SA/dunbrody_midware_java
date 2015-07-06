@@ -221,7 +221,8 @@ public class CartonLabelScan extends ProductLabelScan {
 
 
         data.put("F16",fg_setup.getPacker_barcode());
-        data.put("F18",fg_setup.getPacked_tm_group_code());
+        //data.put("F18",fg_setup.getPacked_tm_group_code());
+        data.put("F18","");
         data.put("F19",this.getFormattedNowDate());
 
 
