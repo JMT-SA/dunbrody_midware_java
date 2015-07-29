@@ -2,6 +2,29 @@
 <module type="JAVA_MODULE" version="4">
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
+    <javadoc-paths>
+      <root url="jar://$MODULE_DIR$/../dunbrody_midware_env/lib/ibatis/ibatis-2.3.0.677.jar!/" />
+      <root url="jar://$MODULE_DIR$/../dunbrody_midware_env/lib/jmt/JmtMesScada.jar!/" />
+      <root url="jar://$MODULE_DIR$/../dunbrody_midware_env/lib/microsoft/SQL2005/sqljdbc.jar!/" />
+      <root url="jar://$MODULE_DIR$/../dunbrody_midware_env/lib/microsoft/SQL2005/sqljdbc4.jar!/" />
+      <root url="jar://$MODULE_DIR$/../dunbrody_midware_env/lib/netbeans/AbsoluteLayout.jar!/" />
+      <root url="jar://$MODULE_DIR$/../dunbrody_midware_env/lib/netbeans/beansbinding-1.2.1.jar!/" />
+      <root url="jar://$MODULE_DIR$/../dunbrody_midware_env/lib/netbeans/swing-layout-1.0.3.jar!/" />
+      <root url="jar://$MODULE_DIR$/../dunbrody_midware_env/lib/postgres/postgresql-8.1-408.jdbc3.jar!/" />
+      <root url="jar://$MODULE_DIR$/../dunbrody_midware_env/lib/sun/comm.jar!/" />
+      <root url="jar://$MODULE_DIR$/../dunbrody_midware_env/lib/sun/smtp.jar!/" />
+      <root url="jar://$MODULE_DIR$/../dunbrody_midware_env/lib/sun/junit.jar!/" />
+      <root url="jar://$MODULE_DIR$/../dunbrody_midware_env/lib/sun/commons-beanutils.jar!/" />
+      <root url="jar://$MODULE_DIR$/../dunbrody_midware_env/lib/sun/common11.jar!/" />
+      <root url="jar://$MODULE_DIR$/../dunbrody_midware_env/lib/sun/activation.jar!/" />
+      <root url="jar://$MODULE_DIR$/../dunbrody_midware_env/lib/sun/jdom.jar!/" />
+      <root url="jar://$MODULE_DIR$/../dunbrody_midware_env/lib/sun/xerces.jar!/" />
+      <root url="jar://$MODULE_DIR$/../dunbrody_midware_env/lib/sun/jasperreports.jar!/" />
+      <root url="jar://$MODULE_DIR$/../dunbrody_midware_env/lib/sun/mail.jar!/" />
+      <root url="jar://$MODULE_DIR$/../dunbrody_midware_env/lib/sun/commons-collections.jar!/" />
+      <root url="jar://$MODULE_DIR$/../dunbrody_midware_env/lib/sun/commons-digester.jar!/" />
+      <root url="file://$MODULE_DIR$/../dunbrody_midware_env/midware_config/map_files" />
+    </javadoc-paths>
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
     </content>

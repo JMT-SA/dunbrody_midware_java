@@ -13,20 +13,20 @@ public class FgSetup {
 
     private Integer id;
     private Integer fg_product_id;
-    private String organization_code;
+    private String organization_code; //inc
     private Integer gtin_id;
-    private String packed_tm_group_code;
-    private String inventory_code;
-    private String pick_reference;
-    private String sell_by_code;
-    private String channel;
-    private String puc;
-    private String product_chars;
-    private String remarks;
-    private String batch_code;
-    private String gtin_code;
-    private String mark_code;
-    private String original_depot;
+    private String packed_tm_group_code; //inc
+    private String inventory_code; //inc
+    private String pick_reference; //inc
+    private String sell_by_code; //inc
+    private String channel; //inc
+    private String puc; //inc
+    private String product_chars; //inc
+    private String remarks; //inc
+    private String batch_code; //inc
+    private String gtin_code; //inc
+    private String mark_code; //inc
+    private String original_depot;  //inc
     private String season;
     private Integer iso_week;
     private String packer_barcode;

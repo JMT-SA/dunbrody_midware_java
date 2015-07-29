@@ -40,6 +40,21 @@ public class ProductLabelingDAO
 	}
 
 
+	public static List<LabelTemplateField> getLabelTemplateField(String template_name) throws Exception
+	{
+		try
+		{
+
+			List<LabelTemplateField> template_fields = (List) DataSource.getSqlMapInstance().queryForList("getLabelTemplateField", template_name);
+			return template_fields;
+		} catch (SQLException ex)
+		{
+			throw new Exception("Template Field be fetched. Reported exception: " + ex);
+		}
+
+	}
+
+
     public static Resource getResource(int resource_id) throws Exception
     {
         try
