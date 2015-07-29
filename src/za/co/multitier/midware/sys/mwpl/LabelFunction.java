@@ -80,6 +80,9 @@ public class LabelFunction {
         else if (field_type.equals("empty_value")) {
             value = "";
         }
+        else if (field_type.equals("static_variable")) {
+            value = String.valueOf(data_fields.get(variable1));
+        }
         else{
             String variable1_value =  String.valueOf(data_fields.get(variable1));
             String separator_value =  String.valueOf(separator);

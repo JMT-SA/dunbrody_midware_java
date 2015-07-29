@@ -442,7 +442,7 @@ public class CartonLabelScan extends ProductLabelScan {
                 template_data_fields_map.put("F" + position, String.valueOf(data_fields.get(field_name)));
             }
             else {
-//              if label field data type is not "data_variable" => call new class  & method e.g. LabelFunction.new(function_name,seperator,variable1,variable2).value
+//              if label field data type is not "data_variable" => call new class  & method e.g. LabelFunction.new(function_name,separator,variable1,variable2).value
                 template_data_fields_map.put("F" + position, new LabelFunction(field_type,separator,variable1,variable2,data_fields).value);
             }
         }
