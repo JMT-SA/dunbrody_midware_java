@@ -1,5 +1,9 @@
 package za.co.multitier.midware.sys.mwpl;
 
+import za.co.multitier.midware.sys.datasource.FgSetup;
+
+import java.beans.Introspector;
+import java.lang.reflect.Method;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -17,13 +21,16 @@ public class LabelFunction {
     public String value;
     public Map data_fields;
 
-    public LabelFunction(String field_type, String separator, String variable1, String variable2,Map data_fields) {
-//        field_type = field_type;
-//        separator = separator;
-//        variable1 = variable1;
-//        variable2 = variable2;
-//        data_fields = data_fields;
-        value = getValue(field_type,separator,variable1,variable2,data_fields);
+    public FgSetup fg_setup;
+
+    public LabelFunction(String field_type, String separator, String variable1, String variable2,Map data_fields,FgSetup fg_setup) {
+        this.field_type = field_type;
+        this.separator = separator;
+        this.variable1 = variable1;
+        this.variable2 = variable2;
+        this.data_fields = data_fields;
+        this.fg_setup = fg_setup;
+        value = getValue(field_type,separator,variable1,variable2,data_fields,fg_setup);
     }
 
     public String getField_type() {
@@ -58,6 +65,14 @@ public class LabelFunction {
         this.variable2 = variable2;
     }
 
+    public FgSetup getFg_setup() {
+        return fg_setup;
+    }
+
+    public void setFg_setup(FgSetup fg_setup) {
+        this.fg_setup = fg_setup;
+    }
+
     protected String getFormattedNowDate()
     {
 
@@ -70,7 +85,7 @@ public class LabelFunction {
 
     }
 
-    public String getValue(String field_type, String separator, String variable1, String variable2,Map data_fields){
+    public String getValue(String field_type, String separator, String variable1, String variable2,Map data_fields,FgSetup fg_setup){
 
         String value;
 //      NB some data fields myt be functions which need to be calculated first... create method for
@@ -81,7 +96,10 @@ public class LabelFunction {
             value = "";
         }
         else if (field_type.equals("static_variable")) {
-            value = String.valueOf(data_fields.get(variable1));
+            value = String.valueOf(variable1);
+        }
+        else if (field_type.equals("function")) {
+            value = new StaticLabelFunction(String.valueOf(data_fields.get(variable1)),String.valueOf(variable2),data_fields,fg_setup).value;
         }
         else{
             String variable1_value =  String.valueOf(data_fields.get(variable1));
@@ -92,4 +110,22 @@ public class LabelFunction {
         return value;
     }
 
+//    private String getFunctionValue(String variable1_value, String function_method_name,Map data_fields,FgSetup fg_setup,StaticLabelFunction static_label_function){
+//        String value ="";
+//        try {
+//            Class myClass = static_label_function.getClass();
+//            Method[] methods = myClass.getMethods();
+//            for (Method method:methods)
+//            {
+//                String method_name=method.getName();
+//                if(method_name.equals(function_method_name))
+//                {
+//                    method.setAccessible(true);
+//                    value = String.valueOf(String.valueOf(method.invoke(variable1_value,data_fields,fg_setup)== null? "":method.invoke(variable1_value,data_fields,fg_setup)));
+//                }
+//            }
+//        } catch (Exception ex) {
+//        }
+//        return value;
+//    }
 }
