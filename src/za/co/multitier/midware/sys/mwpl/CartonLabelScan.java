@@ -366,6 +366,7 @@ public class CartonLabelScan extends ProductLabelScan {
 
         //        Find all the fields for the template(label_data_field,label_templates => field_name,position)
         this.label_template_fields = ProductLabelingDAO.getLabelTemplateField(this.active_device.getTemplate_name());
+//        this.data_field_value_translations = ProductLabelingDAO.getDataFieldValue();
 
         set_template_specific_data(fg_setup,label_template_fields,data);
 
@@ -415,7 +416,6 @@ public class CartonLabelScan extends ProductLabelScan {
         return data_fields;
     }
 
-
     private String get_field_name_from_method_name(String method){
 
         String field_name = Introspector.decapitalize(method.substring(method.startsWith("get") ? 3 : 3));
@@ -437,14 +437,21 @@ public class CartonLabelScan extends ProductLabelScan {
             String position = String.valueOf(obj.getPosition()+1);
             String template_name = String.valueOf(obj.getTemplate_name());
             String template_file_name = String.valueOf(obj.getTemplate_file_name());
-//          NB some data fields myt be functions which need to be calculated first... create method for
-            if (field_type.equals("data_variable")) {
-                template_data_fields_map.put("F" + position, String.valueOf(data_fields.get(field_name)));
-            }
-            else {
-//              if label field data type is not "data_variable" => call new class  & method e.g. LabelFunction.new(function_name,separator,variable1,variable2).value
-                template_data_fields_map.put("F" + position, new LabelFunction(field_type,separator,variable1,variable2,data_fields,fg_setup).value);
-            }
+            String language = String.valueOf(obj.getLanguage());
+
+//          call new class  & method e.g. LabelFunction.new(function_name,separator,variable1,variable2).value
+            String data_field_value = new LabelFunction(language,field_name,field_type,separator,variable1,variable2,data_fields,fg_setup).value;
+            template_data_fields_map.put("F" + position, data_field_value);
+
+////          NB some data fields myt be functions which need to be calculated first... create method for
+//            if (field_type.equals("data_variable")) {
+//                template_data_fields_map.put("F" + position, String.valueOf(data_fields.get(field_name)));
+//            }
+//            else {
+////              if label field data type is not "data_variable" => call new class  & method e.g. LabelFunction.new(function_name,separator,variable1,variable2).value
+//                template_data_fields_map.put("F" + position, new LabelFunction(field_type,separator,variable1,variable2,data_fields,fg_setup).value);
+//            }
+
         }
         return template_data_fields_map;
     }

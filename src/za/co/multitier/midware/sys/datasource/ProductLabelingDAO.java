@@ -54,6 +54,19 @@ public class ProductLabelingDAO
 
 	}
 
+	public static DataFieldValue getDataFieldValue(String data_field_value) throws Exception
+	{
+		try
+		{
+
+			DataFieldValue data_field_value_translations = (DataFieldValue) DataSource.getSqlMapInstance().queryForObject("getDataFieldValue", data_field_value);
+			return data_field_value_translations;
+		} catch (SQLException ex)
+		{
+			throw new Exception("Data Field Value be fetched. Reported exception: " + ex);
+		}
+
+	}
 
     public static Resource getResource(int resource_id) throws Exception
     {

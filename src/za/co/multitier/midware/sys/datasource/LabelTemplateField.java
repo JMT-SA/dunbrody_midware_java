@@ -13,6 +13,7 @@ public class LabelTemplateField {
     private Integer position;
     private String template_name;
     private String template_file_name;
+    private String language;
 
 
     public String getField_name() {
@@ -78,4 +79,14 @@ public class LabelTemplateField {
     public void setTemplate_file_name(String template_file_name) {
         this.template_file_name = template_file_name;
     }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+
 }
