@@ -204,7 +204,7 @@ public class CartonLabelScan extends ProductLabelScan {
 
         data.put("F1",fg_setup.getCarton_number().toString());
         data.put("F2",fg_setup.getCommodity_code());
-        data.put("F3",fg_setup.getVariety_description());
+        data.put("F3","");//fg_setup.getVariety_description());
         data.put("F4",fg_setup.getCommodity_description());
         data.put("F5",fg_setup.getProduction_run_id().toString());
         data.put("F6",fg_setup.getGrade_code());
@@ -365,7 +365,9 @@ public class CartonLabelScan extends ProductLabelScan {
         //==================================================================
 
         //        Find all the fields for the template(label_data_field,label_templates => field_name,position)
-        this.label_template_fields = ProductLabelingDAO.getLabelTemplateField(this.active_device.getTemplate_name());
+
+        String template_name = is_alternative_label()? this.active_device.getAdditional_template_name():this.active_device.getTemplate_name();
+        this.label_template_fields = ProductLabelingDAO.getLabelTemplateField(template_name);
 //        this.data_field_value_translations = ProductLabelingDAO.getDataFieldValue();
 
         set_template_specific_data(fg_setup,label_template_fields,data);
@@ -458,7 +460,7 @@ public class CartonLabelScan extends ProductLabelScan {
 
     private String print_out_data(Map template_label_data_fields,Map data){
 
-        if (template_label_data_fields.isEmpty()) {
+        if (template_label_data_fields.isEmpty() && ! is_alternative_label()) {
             original_print_out_data(data);
         }
         else{
@@ -473,7 +475,7 @@ public class CartonLabelScan extends ProductLabelScan {
 
         data.put("F1",fg_setup.getCarton_number().toString());
         data.put("F2",fg_setup.getCommodity_code());
-        data.put("F3",fg_setup.getVariety_description());
+        data.put("F3","");
         data.put("F4",fg_setup.getCommodity_description());
         data.put("F5",fg_setup.getProduction_run_id().toString());
         data.put("F6",fg_setup.getGrade_code());
@@ -523,6 +525,7 @@ public class CartonLabelScan extends ProductLabelScan {
             ProductLabelingDAO.createCarton(fg_setup);
             ok_msg = "Carton created for drop: " + this.codeCollection[0] + " and scanner: " + this.codeCollection[1];
 
+            ProductLabelingDAO.updateRunStats(fg_setup,null);
         }
         else {
             ProductLabelingDAO.createCartonLabel(fg_setup);
@@ -531,7 +534,6 @@ public class CartonLabelScan extends ProductLabelScan {
         }
 
 
-        ProductLabelingDAO.updateRunStats(fg_setup,null);
 
 
         za.co.multitier.midware.sys.datasource.DataSource.getSqlMapInstance().commitTransaction(); //remove for live

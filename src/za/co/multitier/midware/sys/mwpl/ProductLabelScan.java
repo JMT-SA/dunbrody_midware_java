@@ -189,6 +189,10 @@ public abstract class ProductLabelScan extends DeviceScan {
         String code = this.codeCollection[0];
         this.active_device = DevicesDAO.getActiveDevice(code);
 
+        //extract robot button
+        if (code.substring(code.length() - 2, code.length() - 1).equals("B"))
+            robot_button =   code.substring(code.length() - 1, code.length());
+
         //cater for robot labeling where the pressed button is appended to robot name
         //remove the 'BX' part from code and retry the finding of active device in case users associates
         //same product spec to all buttons on robot
@@ -197,11 +201,12 @@ public abstract class ProductLabelScan extends DeviceScan {
             if (code.substring(code.length() - 2, code.length() - 1).equals("B")) {
                 robot_button =   code.substring(code.length() - 1, code.length());
                 code = code.substring(0, code.length() - 2);
+                this.active_device = DevicesDAO.getActiveDevice(code);
 
             }
         }
 
-        this.active_device = DevicesDAO.getActiveDevice(code);
+
 
         if (this.active_device != null)
             this.run_number = active_device.getProduction_run_code();
@@ -243,16 +248,42 @@ public abstract class ProductLabelScan extends DeviceScan {
             Map label_data = this.label_data;  //set by subclass
             String template_file_name = this.template_name; //default template
 
-            if(this.active_device.getTemplate_name() != null && this.is_alternative_label())
-                template_file_name =  this.active_device.getTemplate_name();
+            if(this.is_alternative_label())
+            {
+                if(this.active_device.getAdditional_template_name() == null||this.active_device.getAdditional_template_name().trim().equals(""))
+                    throw new Exception("Button 4 pressed, but no additional template defined for drop: " + this.active_device.getResource_code());
+
+                template_file_name = ProductLabelingDAO.getTemplateFileName(this.active_device.getAdditional_template_name());
+                if(template_file_name == null ||template_file_name.trim().equals("") )
+                    throw new Exception("Button 4 pressed, but no template file defined for additional template(" + this.active_device.getAdditional_template_name() +
+                           "). Drop is:  " + this.active_device.getResource_code());
+
+
+
+
+            }
+            else
+            {
+               if(this.active_device.getTemplate_name() == null||this.active_device.getTemplate_name().trim().equals(""))
+                    throw new Exception("No template defined for drop: " + this.active_device.getResource_code());
+
+                template_file_name = ProductLabelingDAO.getTemplateFileName(this.active_device.getTemplate_name());
+                if(template_file_name == null ||template_file_name.trim().equals("") )
+                    throw new Exception("No template file defined for template(" + this.active_device.getTemplate_name() +
+                            "). Drop is:  " + this.active_device.getResource_code());
+
+            }
+
 
             StringBuilder label_intruction = new StringBuilder();
             label_intruction.append(SysProtocol.TPRODUCTLABEL + "Status=\"true\" Threading=\"true\" RunNumber=\"");
             label_intruction.append(this.run_number + "\" Code=\"");
             label_intruction.append(this.codeCollection[0] + "\" F0=\"" + template_file_name + "\" ");
 
+            int n_fields = label_data.size();
+
             if(!this.is_static_label()) {
-                for (int i = 1; i <= 20; i++) {
+                for (int i = 1; i <= n_fields; i++) {
                     String key = "F" + new Integer(i).toString();
                     String val = "";
                     if (label_data.get(key) != null)
@@ -262,8 +293,8 @@ public abstract class ProductLabelScan extends DeviceScan {
                     label_intruction.append(field + " ");
                 }
             }
-            else if(is_alternative_label())
-                build_alternative_label(label_intruction);
+//            else if(is_alternative_label())
+//                build_alternative_label(label_intruction);
 
             label_intruction.append("Msg=\"" + message + "\" />");
             return label_intruction.toString();

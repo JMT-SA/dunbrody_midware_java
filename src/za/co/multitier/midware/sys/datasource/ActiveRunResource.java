@@ -20,6 +20,9 @@ public class ActiveRunResource {
 
     private String template_name;
     private String static_label;
+    private String additional_template_name;
+
+
 
 
     private String line_code;
@@ -130,5 +133,15 @@ public class ActiveRunResource {
 
     public void setStatic_label(String static_label) {
         this.static_label = static_label;
+    }
+
+    public String getAdditional_template_name()
+    {
+        return additional_template_name;
+    }
+
+    public void setAdditional_template_name(String additional_template_name)
+    {
+        this.additional_template_name = additional_template_name;
     }
 }

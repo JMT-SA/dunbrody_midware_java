@@ -338,6 +338,11 @@ public class ProductLabelingDAO
 	}
 	
 	
+	public static String getTemplateFileName(String template_name)  throws Exception
+	{
+		return   (String) DataSource.getSqlMapInstance().queryForObject("getTemplateFileName", template_name);
+	}
+
 
 	
 	public static Account getMarketerAccountCodeForFarm(String farm_code,String marketing_org_short_descr) throws Exception
