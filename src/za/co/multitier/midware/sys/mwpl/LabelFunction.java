@@ -128,7 +128,7 @@ public class LabelFunction {
         }
         else{
             try {
-                DataFieldValue data_field_value_translations = ProductLabelingDAO.getDataFieldValue(data_field_value.toLowerCase());
+                DataFieldValue data_field_value_translations = ProductLabelingDAO.getDataFieldValue(data_field_value);
 //                field_value = String.valueOf(data_field_value_translations.get(language));
                 if (language.equals("indian")) {
                     field_value = String.valueOf(data_field_value_translations.getIndian());
