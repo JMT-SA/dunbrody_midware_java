@@ -1,9 +1,7 @@
 
 package za.co.multitier.midware.sys.mwpl;
 
-import za.co.multitier.midware.sys.datasource.DataFieldValue;
-import za.co.multitier.midware.sys.datasource.FgSetup;
-import za.co.multitier.midware.sys.datasource.ProductLabelingDAO;
+import za.co.multitier.midware.sys.datasource.*;
 
 import java.beans.Introspector;
 import java.lang.reflect.Method;
@@ -112,6 +110,12 @@ public class LabelFunction {
         else if (field_type.equals("function")) {
             value = new StaticLabelFunction(String.valueOf(language),String.valueOf(data_fields.get(variable1)),String.valueOf(variable2),data_fields,fg_setup).value;
         }
+        else if (field_type.equals("concat")) {
+//            String variable1_value =  get_data_field_value_translation(String.valueOf(variable1), String.valueOf(language));
+            ArrayList treatment_codes = (ArrayList) data_fields.get(String.valueOf(variable1));
+            value = concat(treatment_codes, String.valueOf(separator), String.valueOf(language));
+//            value = variable1_value + ":" + concat(treatment_codes, String.valueOf(separator), String.valueOf(language));
+        }
         else{
             String variable1_value =  get_data_field_value_translation(String.valueOf(data_fields.get(variable1)), String.valueOf(language));
             String separator_value =  String.valueOf(separator); //get_data_field_value_translation(String.valueOf(separator), String.valueOf(language));
@@ -129,7 +133,6 @@ public class LabelFunction {
         else{
             try {
                 DataFieldValue data_field_value_translations = ProductLabelingDAO.getDataFieldValue(data_field_value);
-//                field_value = String.valueOf(data_field_value_translations.get(language));
                 if (language.equals("indian")) {
                     field_value = String.valueOf(data_field_value_translations.getIndian());
                 }else if (language.equals("russian")) {
@@ -142,6 +145,23 @@ public class LabelFunction {
             }
         }
         return field_value;
+    }
+
+    public String concat(ArrayList treatments,String separator,String language){
+
+        String treatments_values = "";
+
+        int treatments_size = treatments.size();
+        for (int i=0; i<treatments_size; i++){
+            if (i == treatments_size-1){
+                treatments_values += get_data_field_value_translation(treatments.get(i).toString(), language);
+            }
+            else {
+                treatments_values += get_data_field_value_translation(treatments.get(i).toString(), language) + " " + separator + " " ;
+            }
+        }
+        return treatments_values;
+//        return "{" + treatments_values + "}";
     }
 
 }

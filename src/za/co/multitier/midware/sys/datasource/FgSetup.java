@@ -1,6 +1,7 @@
 package za.co.multitier.midware.sys.datasource;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -58,7 +59,28 @@ public class FgSetup {
 
 
     private Double calculated_mass;
-    
+
+    //MM032016
+    private List Concat_treatments;
+    private List Concat_waxs;
+
+    public List getConcat_treatments() {
+        return Concat_treatments;
+    }
+
+    public void setConcat_treatments(List concat_treatments) {
+        Concat_treatments = concat_treatments;
+    }
+
+    public List getConcat_waxs() {
+        return Concat_waxs;
+    }
+
+    public void setConcat_waxs(List concat_waxs) {
+        Concat_waxs = concat_waxs;
+    }
+
+    //MM032016
 
 
     public Integer getId() {

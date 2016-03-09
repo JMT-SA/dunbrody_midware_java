@@ -11,7 +11,7 @@ package za.co.multitier.midware.sys.datasource;
 
 import com.mindprod.common11.BigDate;
 
-import java.sql.SQLException; 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,6 +50,40 @@ public class ProductLabelingDAO
 		} catch (SQLException ex)
 		{
 			throw new Exception("Template Field be fetched. Reported exception: " + ex);
+		}
+
+	}
+
+	public static List<PackhouseTreatment> getTreatments(String target_market,String treatment_type_code) throws Exception
+	{
+		try
+		{
+			HashMap params = new HashMap();
+			params.put("target_market",target_market);
+			params.put("treatment_type_code",treatment_type_code);
+
+			List<PackhouseTreatment> treatment_codes = (List) DataSource.getSqlMapInstance().queryForList("getTreatments",params);
+			return treatment_codes;
+		} catch (SQLException ex)
+		{
+			throw new Exception("Reported exception: " + ex);
+		}
+
+	}
+
+	public static List<PackhouseTreatment> getTreats(String target_market) throws Exception
+	{
+		try
+		{
+			HashMap params = new HashMap();
+			params.put("target_market",target_market);
+//			params.put("treatment_type_code",treatment_type_code);
+
+			List<PackhouseTreatment> treatment_codes = (List) DataSource.getSqlMapInstance().queryForList("getTreats",params);
+			return treatment_codes;
+		} catch (SQLException ex)
+		{
+			throw new Exception("Reported exception: " + ex);
 		}
 
 	}

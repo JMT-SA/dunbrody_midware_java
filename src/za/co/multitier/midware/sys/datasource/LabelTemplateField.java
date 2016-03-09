@@ -15,6 +15,18 @@ public class LabelTemplateField {
     private String template_file_name;
     private String language;
 
+//    MM032016 - label_template_field_language
+    private String label_template_field_language;
+
+    public String getLabel_template_field_language() {
+        return label_template_field_language;
+    }
+
+    public void setLabel_template_field_language(String label_template_field_language) {
+        this.label_template_field_language = label_template_field_language;
+    }
+
+    //    MM032016 - label_template_field_language
 
     public String getField_name() {
         return field_name;
