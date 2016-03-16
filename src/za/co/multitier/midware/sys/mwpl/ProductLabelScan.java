@@ -337,6 +337,7 @@ public abstract class ProductLabelScan extends DeviceScan {
                 return createLabelErrString("Ctn : " + this.codeCollection[0] + " already verified");
             else {
                 ProductLabelingDAO.createCartonFromLabel(label);
+                ProductLabelingDAO.updateCartonRunStatsQc(label);
                 return createLabelMsgString("Carton verified");
             }
         }

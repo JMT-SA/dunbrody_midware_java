@@ -82,7 +82,7 @@ public class MockServer {
            try
            {
             //result = BinTippingScan.scanBin(bintip_ip,bin_scanned,getButton((int) button),"bin_tipper_1" );
-               CartonLabelScan labeling_scan = new CartonLabelScan(ip, "15.3", code_collection,CartonLabelScan.MODE_ROBOT_SCANNING);
+               CartonLabelScan labeling_scan = new CartonLabelScan(ip, "15.3", code_collection,CartonLabelScan.MODE_ROBOT_QC_SCANNING);
 
                
 

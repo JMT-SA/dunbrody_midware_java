@@ -435,6 +435,18 @@ public class ProductLabelingDAO
 		}
 		
 	}
+
+
+
+	public static void updateCartonRunStatsQc(Carton label) throws Exception
+	{
+		//-------------------------------------------------------------------------------------
+		//Method created to overcome deadlock problem when multiple labeling instances tries to
+		//update the production_runs record
+		//--------------------------------------------------------------
+		DataSource.getSqlMapInstance().update("updateCartonStatsQc",label);
+		//DataSource.getSqlMapInstance().update("addCartonWeight",new_carton);
+	}
 	
 
 
