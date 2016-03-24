@@ -23,7 +23,9 @@ public class LabelFunction {
 
     public FgSetup fg_setup;
 
-    public LabelFunction(String language,String field_name,String field_type, String separator, String variable1, String variable2,Map data_fields,FgSetup fg_setup) {
+    public Map custom_label_fields;
+
+    public LabelFunction(String language,String field_name,String field_type, String separator, String variable1, String variable2,Map data_fields,FgSetup fg_setup,Map custom_label_fields) {
         this.language = language;
         this.field_name = field_name;
         this.field_type = field_type;
@@ -32,7 +34,8 @@ public class LabelFunction {
         this.variable2 = variable2;
         this.data_fields = data_fields;
         this.fg_setup = fg_setup;
-        value = getValue(language,field_name,field_type,separator,variable1,variable2,data_fields,fg_setup);
+        this.custom_label_fields = custom_label_fields;
+        value = getValue(language,field_name,field_type,separator,variable1,variable2,data_fields,fg_setup,custom_label_fields);
     }
 
     public String getField_name() {
@@ -91,7 +94,7 @@ public class LabelFunction {
 
     }
 
-    public String getValue(String language,String field_name,String field_type, String separator, String variable1, String variable2,Map data_fields,FgSetup fg_setup){
+    public String getValue(String language,String field_name,String field_type, String separator, String variable1, String variable2,Map data_fields,FgSetup fg_setup,Map custom_label_fields){
 
         String value;
 //      NB some data fields myt be functions which need to be calculated first... create method for
@@ -115,6 +118,10 @@ public class LabelFunction {
             ArrayList treatment_codes = (ArrayList) data_fields.get(String.valueOf(variable1));
             value = concat(treatment_codes, String.valueOf(separator), String.valueOf(language));
 //            value = variable1_value + ":" + concat(treatment_codes, String.valueOf(separator), String.valueOf(language));
+        }
+        else if (field_type.equals("custom_label_field")) {
+            String field_value = String.valueOf(custom_label_fields.get(String.valueOf(variable1)));
+            value = get_data_field_value_translation(field_value, String.valueOf(language));
         }
         else{
             String variable1_value =  get_data_field_value_translation(String.valueOf(data_fields.get(variable1)), String.valueOf(language));

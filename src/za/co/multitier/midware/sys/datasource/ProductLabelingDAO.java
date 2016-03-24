@@ -44,7 +44,6 @@ public class ProductLabelingDAO
 	{
 		try
 		{
-
 			List<LabelTemplateField> template_fields = (List) DataSource.getSqlMapInstance().queryForList("getLabelTemplateField", template_name);
 			return template_fields;
 		} catch (SQLException ex)
@@ -54,15 +53,28 @@ public class ProductLabelingDAO
 
 	}
 
-	public static List<PackhouseTreatment> getTreatments(String target_market,String treatment_type_code) throws Exception
+//	public static List<PackhouseTreatment> getTreatments(String target_market,String treatment_type_code) throws Exception
+//	{
+//		try
+//		{
+//			HashMap params = new HashMap();
+//			params.put("target_market",target_market);
+//			params.put("treatment_type_code",treatment_type_code);
+//
+//			List<PackhouseTreatment> treatment_codes = (List) DataSource.getSqlMapInstance().queryForList("getTreatments",params);
+//			return treatment_codes;
+//		} catch (SQLException ex)
+//		{
+//			throw new Exception("Reported exception: " + ex);
+//		}
+//
+//	}
+
+	public static List<PackhouseTreatment> getTreatments(String target_market) throws Exception
 	{
 		try
 		{
-			HashMap params = new HashMap();
-			params.put("target_market",target_market);
-			params.put("treatment_type_code",treatment_type_code);
-
-			List<PackhouseTreatment> treatment_codes = (List) DataSource.getSqlMapInstance().queryForList("getTreatments",params);
+			List<PackhouseTreatment> treatment_codes = (List) DataSource.getSqlMapInstance().queryForList("getTreats",target_market);
 			return treatment_codes;
 		} catch (SQLException ex)
 		{
@@ -71,16 +83,12 @@ public class ProductLabelingDAO
 
 	}
 
-	public static List<PackhouseTreatment> getTreats(String target_market) throws Exception
+	public static List<CustomLabelField> getCustomLabelFields(Integer fg_setup_id) throws Exception
 	{
 		try
 		{
-			HashMap params = new HashMap();
-			params.put("target_market",target_market);
-//			params.put("treatment_type_code",treatment_type_code);
-
-			List<PackhouseTreatment> treatment_codes = (List) DataSource.getSqlMapInstance().queryForList("getTreats",params);
-			return treatment_codes;
+			List<CustomLabelField>  custom_label_fields = (List) DataSource.getSqlMapInstance().queryForList("getCustomLabelFields", fg_setup_id);
+			return custom_label_fields;
 		} catch (SQLException ex)
 		{
 			throw new Exception("Reported exception: " + ex);

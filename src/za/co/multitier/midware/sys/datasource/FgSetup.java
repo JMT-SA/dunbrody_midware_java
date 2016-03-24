@@ -63,6 +63,15 @@ public class FgSetup {
     //MM032016
     private List Concat_treatments;
     private List Concat_waxs;
+    private List custom_label_fields;
+
+    public List getCustom_label_fields() {
+        return custom_label_fields;
+    }
+
+    public void setCustom_label_fields(List custom_label_fields) {
+        this.custom_label_fields = custom_label_fields;
+    }
 
     public List getConcat_treatments() {
         return Concat_treatments;
