@@ -340,7 +340,7 @@ public class CartonLabelScan extends ProductLabelScan {
         HashMap shift = ProductLabelingDAO.getShift(run.getLine_id(), "packer", this.codeCollection[1]);
         if (shift == null)
             // throw new Exception("No shift found for line: " + run.getLine_code() + " and scanner: " + this.codeCollection[1] );
-            return String.format(ProductLabelScan.LABEL_ERR, "No shift found for line: " + run.getLine_code() + " and scanner: " + this.codeCollection[1], "No shift found for line: " + run.getLine_code() + " and scanner: " + this.codeCollection[1], "No shift found for line: " + run.getLine_code() + " and scanner: " + this.codeCollection[1]);
+            return String.format(ProductLabelScan.LABEL_ERR, "No shift found for line: " + run.getLine_code() + " and scanner: " + this.codeCollection[1], "No shift found for line: " + run.getLine_code(), " and scanner: " + this.codeCollection[1],"");
 
 
         fg_setup.setPacker_barcode(this.codeCollection[1]);
