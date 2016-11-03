@@ -27,15 +27,46 @@ import za.co.multitier.midware.sys.datasource.*;
  */
 public abstract class ProductLabelScan extends DeviceScan {
 
+//    Sit net hierdie attribuut by jou afstuur pakkie:    WeightStatus="under" or "normal" or "over" or "error"
+//
+//    Waar:
+//            - Under = Oranje lig
+//    - Normal = Groen lig
+//    - Over = Rooi lig
+//    - Error = Al die ligte
 
     public static String LABEL_ERR =
             SysProtocol.TMSG +
-                    " Msg=\"ERR: %s\"  Color=\"bold+red\"  Yellow=\"false\" Green=\"false\" Red=\"true\" LCD1=\"%s\" LCD2=\"%s\" LCD3=\"%s\" LCD4=\"\" />";
+                    " Msg=\"ERR: %s\"  Color=\"bold+red\"  Yellow=\"true\" Green=\"true\" Red=\"true\" LCD1=\"%s\" LCD2=\"%s\" LCD3=\"%s\" LCD4=\"\" />";
 
 
     public static String LABEL_MSG =
             SysProtocol.TMSG +
                     " Msg=\"%s\"  Color=\"bold+green\" Yellow=\"false\" Green=\"true\" Red=\"false\" LCD1=\"%s\" LCD2=\"%s\" LCD3=\"\" LCD4=\"\" />";
+
+
+    public static String QC_WEIGH_LABEL_OK_MSG =
+            SysProtocol.TMSG +
+                    " Msg=\"%s\"  WeightStatus=\"normal\" Color=\"bold+green\" Yellow=\"false\" Green=\"true\" Red=\"false\" LCD1=\"%s\" LCD2=\"%s\" LCD3=\"\" LCD4=\"\" />";
+
+
+    public static String QC_WEIGH_LABEL_UNDER_MSG =
+            SysProtocol.TMSG +
+                    " Msg=\"%s\" WeightStatus=\"under\"  Color=\"bold+green\" Yellow=\"true\" Green=\"false\" Red=\"false\" LCD1=\"%s\" LCD2=\"%s\" LCD3=\"\" LCD4=\"\" />";
+
+
+    public static String QC_WEIGH_LABEL_OVER_MSG =
+            SysProtocol.TMSG +
+                    " Msg=\"%s\" WeightStatus=\"over\"  Color=\"bold+green\" Yellow=\"false\" Green=\"false\" Red=\"true\" LCD1=\"%s\" LCD2=\"%s\" LCD3=\"\" LCD4=\"\" />";
+
+
+    public static String QC_WEIGH_LABEL_ERR_MSG =
+            SysProtocol.TMSG +
+                    " Msg=\"%s\" WeightStatus=\"error\"  Color=\"bold+green\" Yellow=\"true\" Green=\"true\" Red=\"true\" LCD1=\"%s\" LCD2=\"%s\" LCD3=\"\" LCD4=\"\" />";
+
+
+
+
 
 
     protected String ip;
@@ -133,6 +164,42 @@ public abstract class ProductLabelScan extends DeviceScan {
 
 
         return String.format(ProductLabelScan.LABEL_MSG, e1, e2, e3);
+
+    }
+
+
+    protected String createQcLabelMsgString(String msg,String weigh_result) {
+        String e1 = "";
+        String e2 = "";
+        String e3 = "";
+
+        if (msg.length() >= 90) {
+            e1 = msg.substring(0, 29);
+            e2 = msg.substring(30, 60);
+            e3 = msg.substring(61, 90);
+
+        } else if (msg.length() > 60) {
+            e1 = msg.substring(0, 29);
+            e2 = msg.substring(30, 60);
+            e3 = msg.substring(61, msg.length());
+        } else {
+            e1 = msg.substring(0, msg.length());
+        }
+
+
+        String result_command_type = "";
+        if(weigh_result.equals("normal"))
+            result_command_type = ProductLabelScan.QC_WEIGH_LABEL_OK_MSG;
+        else if  (weigh_result.equals("over"))
+            result_command_type = ProductLabelScan.QC_WEIGH_LABEL_OVER_MSG ;
+        else if (weigh_result.equals("under"))
+            result_command_type =  ProductLabelScan.QC_WEIGH_LABEL_UNDER_MSG;
+        else
+        {
+            result_command_type = ProductLabelScan.QC_WEIGH_LABEL_ERR_MSG;
+            e2 = "No Weight Range";
+        }
+        return String.format(result_command_type, e1, e1, e2);
 
     }
 
@@ -336,9 +403,11 @@ public abstract class ProductLabelScan extends DeviceScan {
             if (ProductLabelingDAO.getCarton(carton_num) != null)
                 return createLabelErrString("Ctn : " + this.codeCollection[0] + " already verified");
             else {
-                ProductLabelingDAO.createCartonFromLabel(label);
+
+               String weigh_result = ProductLabelingDAO.createCartonFromLabel(label, this.mass);
                 ProductLabelingDAO.updateCartonRunStatsQc(label);
-                return createLabelMsgString("Carton verified");
+
+                return createQcLabelMsgString("Carton verified", weigh_result);
             }
         }
 
@@ -356,10 +425,10 @@ public abstract class ProductLabelScan extends DeviceScan {
 
             String err = null;
             if (!isDeviceActive())
-                return createLabelErrString("Station: " + this.codeCollection[0] + " not linked");
+                return createLabelErrString(this.codeCollection[0] + " not linked");
 
             if (is_robot_button_disabled())
-                return createLabelErrString("Robot button: " + this.robot_button + " is disabled");
+                return createLabelErrString("Btn: " + this.robot_button + " is disabled");
 
             err = this.setLabelData(); //subclass must fetch and set label data in Map format (and store in 'label_data' member variable)
 
@@ -381,7 +450,7 @@ public abstract class ProductLabelScan extends DeviceScan {
 
         } catch (Exception ex) {
             System.out.println("Carton scanning exception: " + ex.toString());
-            ex.printStackTrace();
+           // ex.printStackTrace();
 
             DeviceScan.handle_exception(this.midware_console, "Product Scan exception occurred for ip:" + this.ip + " and station code " + this.codeCollection[0],
                     ex.toString(), this.getClass().getName() + ".processLabelScan()", this.device_type, 0, this.run_number, ex.getStackTrace());

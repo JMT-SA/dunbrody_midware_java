@@ -41,6 +41,11 @@ public class Carton {
     
     private Double calculated_mass;
 
+    private Double min_pack_weight;
+    private Double max_pack_weight;
+    private Integer fg_product_weight_id;
+
+
 
 
     private String commodity_code;
@@ -360,5 +365,35 @@ public class Carton {
 
     public void setSize_count_code(String size_count_code) {
         this.size_count_code = size_count_code;
+    }
+
+    public Double getMin_pack_weight()
+    {
+        return min_pack_weight;
+    }
+
+    public void setMin_pack_weight(Double min_pack_weight)
+    {
+        this.min_pack_weight = min_pack_weight;
+    }
+
+    public Double getMax_pack_weight()
+    {
+        return max_pack_weight;
+    }
+
+    public void setMax_pack_weight(Double max_pack_weight)
+    {
+        this.max_pack_weight = max_pack_weight;
+    }
+
+    public Integer getFg_product_weight_id()
+    {
+        return fg_product_weight_id;
+    }
+
+    public void setFg_product_weight_id(Integer fg_product_weight_id)
+    {
+        this.fg_product_weight_id = fg_product_weight_id;
     }
 }

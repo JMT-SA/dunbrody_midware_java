@@ -726,8 +726,8 @@ public class PalletizingAction extends DeviceScan
 				   //DeviceScan.handle_exception(this.midware_console,"Palletizing action could not be processed(skip ip: " + skip_ip + ", bay number: " + bay_num + ", carton scanned: " + carton_scanned + ", button pressed: " + button_pressed.toString() + ") .Reported exception: " ,
 				   //                    ex.toString(),"PalletizingAction.ProcessAction",DeviceTypes.PALLETISING,0,"",ex.getStackTrace(),skip_ip);
                                     //throw ex;
-                                    System.out.println(ex.getMessage());
-                                    ex.printStackTrace();
+                                   // System.out.println(ex.getMessage());
+                                   // ex.printStackTrace();
 				  return createErrorRobotScreen("INVALID BARCODE ","TRY TO RE-SCAN CTN");
 					
 				}

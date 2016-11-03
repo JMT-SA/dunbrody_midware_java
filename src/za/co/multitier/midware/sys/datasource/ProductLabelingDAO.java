@@ -501,16 +501,33 @@ public class ProductLabelingDAO
 	}
 
 
-	public static void createCartonFromLabel(Carton label) throws Exception
+	public static String createCartonFromLabel(Carton label,String mass) throws Exception
 	{
 		try
 		{
+			String weigh_result = "";
+			double real_mass = Double.parseDouble(mass);
+			label.setCarton_fruit_nett_mass(real_mass);
+
+			if(label.getMin_pack_weight() == null||label.getMax_pack_weight() == null)
+				weigh_result = "undefined";
+			else
+			{
+				if (real_mass >= label.getMin_pack_weight() && real_mass <= label.getMax_pack_weight())
+					weigh_result = "normal";
+				else if (real_mass < label.getMin_pack_weight())
+					weigh_result = "under";
+				else
+					weigh_result = "over";
+			}
 
 			DataSource.getSqlMapInstance().insert("createCartonFromLabel",label);
 			//updateRunStats(new_carton,null);
 			//updateCartonRunStats(new_carton);
 			// DataSource.getSqlMapInstance().update("incrementCartonsPrinted",new_carton);
 			//DataSource.getSqlMapInstance().update("addCartonWeight",new_carton);
+
+			return weigh_result;
 
 		} catch (SQLException ex)
 		{
