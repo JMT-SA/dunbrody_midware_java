@@ -29,7 +29,7 @@ public class DataSource {
         try {
 
 
-            MyClassPath.addFile("/opt/jmt/midware_config");
+            MyClassPath.addFile("/home/nspack/jmt/midware_config");
             //MyClassPath.addFile("E:/jmt/midware_config");
 
             System.out.println("About to load database config file");

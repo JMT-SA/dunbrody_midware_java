@@ -29,6 +29,7 @@ public class FgSetup {
     private String mark_code; //inc
     private String original_depot;  //inc
     private String season;
+    private String phc;
     private Integer iso_week;
     private String packer_barcode;
     private Integer packer_incentivized_employee_id;
@@ -43,6 +44,7 @@ public class FgSetup {
     private java.sql.Timestamp created_on;
     private Integer fg_setup_id;
     private String farm_code;
+    private String gln;
 
     private String commodity_code;
     private String variety_description;
@@ -55,6 +57,7 @@ public class FgSetup {
     private String size_ref;
     private String size_count_code;
     private String orchard_code;
+    private String pack_point;
 
 
 
@@ -418,5 +421,29 @@ public class FgSetup {
 
     public void setOrchard_code(String orchard_code) {
         this.orchard_code = orchard_code;
+    }
+
+    public String getPhc() {
+        return phc;
+    }
+
+    public void setPhc(String phc) {
+        this.phc = phc;
+    }
+
+    public String getPack_point() {
+        return pack_point;
+    }
+
+    public void setPack_point(String pack_point) {
+        this.pack_point = pack_point;
+    }
+
+    public String getGln() {
+        return gln;
+    }
+
+    public void setGln(String gln) {
+        this.gln = gln;
     }
 }

@@ -36,7 +36,7 @@ public class MidwareConfig
 	{
 		try
 		{
-            MyClassPath.addFile("/opt/jmt/midware_config");
+            MyClassPath.addFile("/home/nspack/jmt/midware_config");
 			//MyClassPath.addFile("E:/jmt/midware_config");
 			settings = new Properties();
 			InputStream prop_file = ClassLoader.getSystemClassLoader ().getResourceAsStream("app_settings.properties");

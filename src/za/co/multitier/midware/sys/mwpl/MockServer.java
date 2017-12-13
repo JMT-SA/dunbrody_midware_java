@@ -34,7 +34,7 @@ public class MockServer {
 
     public static void main(String[] args) {
 
-        String ip = "192.168.10.48";
+        String ip = "10.10.2.37";
 
 
         Scanner in = new Scanner(System.in);
@@ -82,7 +82,7 @@ public class MockServer {
            try
            {
             //result = BinTippingScan.scanBin(bintip_ip,bin_scanned,getButton((int) button),"bin_tipper_1" );
-               CartonLabelScan labeling_scan = new CartonLabelScan(ip, "15.3", code_collection,CartonLabelScan.MODE_ROBOT_QC_SCANNING);
+               CartonLabelScan labeling_scan = new CartonLabelScan(ip, "", code_collection,CartonLabelScan.MODE_ROBOT_SCANNING);
 
                
 

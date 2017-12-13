@@ -31,6 +31,8 @@ public class CartonLabelScan extends ProductLabelScan {
     public static final int MODE_LINE_SCANNING = 6;
     public static final int MODE_ROBOT_QC_SCANNING = 11;
     public static final int MODE_ROBOT_SCANNING = 12;
+
+    public static final String COMPANY_GLN_PREFIX = "6009802182";
     //public static final String R
 
 
@@ -146,6 +148,7 @@ public class CartonLabelScan extends ProductLabelScan {
 
 
         phc = ProductLabelingDAO.getLinePhc(run.getLine_id());
+        fg_setup.setPhc(phc);
 
         this.packer = this.codeCollection[1];
 
@@ -315,6 +318,7 @@ public class CartonLabelScan extends ProductLabelScan {
 
 
         phc = ProductLabelingDAO.getLinePhc(run.getLine_id());
+        fg_setup.setPhc(phc);
 
         this.packer = this.codeCollection[1];
 
@@ -342,6 +346,9 @@ public class CartonLabelScan extends ProductLabelScan {
             // throw new Exception("No shift found for line: " + run.getLine_code() + " and scanner: " + this.codeCollection[1] );
             return String.format(ProductLabelScan.LABEL_ERR, "No shift found for line: " + run.getLine_code() + " and scanner: " + this.codeCollection[1], "No shift found for line: " + run.getLine_code(), " and scanner: " + this.codeCollection[1],"");
 
+        if(this.codeCollection[0] != null) {
+            fg_setup.setPack_point(this.codeCollection[0]);
+        }
 
         fg_setup.setPacker_barcode(this.codeCollection[1]);
         fg_setup.setFg_setup_id(fg_setup.getId());
@@ -357,6 +364,7 @@ public class CartonLabelScan extends ProductLabelScan {
         fg_setup.setBatch_code(run.getBatch_code());
         fg_setup.setProduction_run_id(run.getId());
         fg_setup.setShift_id((Integer) shift.get("id"));
+        fg_setup.setGln(COMPANY_GLN_PREFIX + run.getGln());
 
 
         Double calculated_mass = ProductLabelingDAO.getCartonCalculatedMass(fg_setup.getFg_product_id());

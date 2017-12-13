@@ -38,6 +38,7 @@ public class Carton {
     private String farm_code;
     private String puc_code;
     private Double carton_fruit_nett_mass;
+    private String gln;
     
     private Double calculated_mass;
 
@@ -58,6 +59,7 @@ public class Carton {
     private String farm_gap;
     private String size_ref;
     private String size_count_code;
+    private String pack_point;
 
 
 
@@ -395,5 +397,21 @@ public class Carton {
     public void setFg_product_weight_id(Integer fg_product_weight_id)
     {
         this.fg_product_weight_id = fg_product_weight_id;
+    }
+
+    public String getPack_point() {
+        return pack_point;
+    }
+
+    public void setPack_point(String pack_point) {
+        this.pack_point = pack_point;
+    }
+
+    public String getGln() {
+        return gln;
+    }
+
+    public void setGln(String gln) {
+        this.gln = gln;
     }
 }

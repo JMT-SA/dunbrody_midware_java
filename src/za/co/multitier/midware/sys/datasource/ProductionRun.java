@@ -49,6 +49,7 @@ public class ProductionRun
 
 	private String gap;
 
+	private String gln;
 
 
 
@@ -195,5 +196,13 @@ public class ProductionRun
 
 	public void setGap(String gap) {
 		this.gap = gap;
+	}
+
+	public String getGln() {
+		return gln;
+	}
+
+	public void setGln(String gln) {
+		this.gln = gln;
 	}
 }
