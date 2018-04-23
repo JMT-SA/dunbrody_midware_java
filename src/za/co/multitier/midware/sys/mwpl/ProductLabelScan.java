@@ -450,7 +450,7 @@ public abstract class ProductLabelScan extends DeviceScan {
 
         } catch (Exception ex) {
             System.out.println("Carton scanning exception: " + ex.toString());
-           // ex.printStackTrace();
+            ex.printStackTrace();
 
             DeviceScan.handle_exception(this.midware_console, "Product Scan exception occurred for ip:" + this.ip + " and station code " + this.codeCollection[0],
                     ex.toString(), this.getClass().getName() + ".processLabelScan()", this.device_type, 0, this.run_number, ex.getStackTrace());

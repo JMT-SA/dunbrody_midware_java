@@ -51,6 +51,8 @@ public class ProductionRun
 
 	private String gln;
 
+	private String labeling_rmt_variety;
+
 
 
 	public int getId()
@@ -204,5 +206,13 @@ public class ProductionRun
 
 	public void setGln(String gln) {
 		this.gln = gln;
+	}
+
+	public String getLabeling_rmt_variety() {
+		return labeling_rmt_variety;
+	}
+
+	public void setLabeling_rmt_variety(String labeling_rmt_variety) {
+		this.labeling_rmt_variety = labeling_rmt_variety;
 	}
 }

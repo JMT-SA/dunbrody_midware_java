@@ -15,7 +15,6 @@ import java.util.*;
 //import za.co.multitier.mesware.messages.MailInterface;
 //import za.co.multitier.mesware.services.gsm.GsmServerInterface;
 
-import com.sun.deploy.util.StringUtils;
 import za.co.multitier.mesware.messages.MessageInterface;
 import za.co.multitier.midware.sys.appservices.DeviceScan;
 import za.co.multitier.midware.sys.appservices.MidwareConfig;
@@ -62,12 +61,6 @@ public class CartonLabelScan extends ProductLabelScan {
     String line2;
 
     List<LabelTemplateField> label_template_fields;
-
-    List<PackhouseTreatment> treatments;
-    List<PackhouseTreatment> waxs;
-
-    List<PackhouseTreatment> treats;
-    List<CustomLabelField> custom_label_fields;
 
     protected String setLabelData_old() throws Exception {
 
@@ -379,19 +372,6 @@ public class CartonLabelScan extends ProductLabelScan {
         //    Miracle code Label Printing 072015
         //==================================================================
 
-//        this.treatments = ProductLabelingDAO.getTreatments(this.fg_setup.getPacked_tm_group_code(),"treatments");
-//        this.waxs = ProductLabelingDAO.getTreatments(this.fg_setup.getPacked_tm_group_code(),"waxs");
-//        ArrayList<String> treatments = get_treatments(this.treatments);
-//        ArrayList<String> waxs = get_treatments(this.waxs);
-//        this.fg_setup.setConcat_treatments(treatments);
-//        this.fg_setup.setConcat_waxs(waxs);
-
-        this.treatments = ProductLabelingDAO.getTreatments(this.fg_setup.getPacked_tm_group_code());
-        get_treatments(this.treatments);
-
-        this.custom_label_fields = ProductLabelingDAO.getCustomLabelFields(this.fg_setup.getId());
-
-
         //        Find all the fields for the template(label_data_field,label_templates => field_name,position)
 
         String template_name = is_alternative_label()? this.active_device.getAdditional_template_name():this.active_device.getTemplate_name();
@@ -438,15 +418,9 @@ public class CartonLabelScan extends ProductLabelScan {
                 if(method_name.startsWith("get"))
                 {
                     method.setAccessible(true);
-                    if (method_name.startsWith("getConcat_"))
-                    {
-                        data_fields.put(Introspector.decapitalize(method_name.substring(method_name.startsWith("getConcat_") ? 10 : 10)),method.invoke(fg_setup)== null? "":method.invoke(fg_setup));
-                    }
-                    else {
                         data_fields.put(get_field_name_from_method_name(method_name), String.valueOf(method.invoke(fg_setup) == null ? "" : method.invoke(fg_setup)));
                     }
                 }
-            }
         } catch (Exception ex) {
         }
         return data_fields;
@@ -463,8 +437,6 @@ public class CartonLabelScan extends ProductLabelScan {
 
         Map template_data_fields_map = new HashMap();
 
-        Map template_custom_data_fields =  get_custom_label_fields(this.custom_label_fields);
-
 //      get data from List
         for(LabelTemplateField obj : template_data_fields){
             String field_name = String.valueOf(obj.getField_name());
@@ -473,14 +445,12 @@ public class CartonLabelScan extends ProductLabelScan {
             String variable2 = String.valueOf(obj.getVariable2());
             String separator = String.valueOf(obj.getSeparator());
             String position = String.valueOf(obj.getPosition()+1);
-//            String template_name = String.valueOf(obj.getTemplate_name());
-//            String template_file_name = String.valueOf(obj.getTemplate_file_name());
-//            String language = String.valueOf(obj.getLanguage());
-//            String label_template_field_language = String.valueOf(obj.getLabel_template_field_language());
-            String language = (obj.getLabel_template_field_language() ==null || String.valueOf(obj.getLabel_template_field_language()).equals(String.valueOf(obj.getLanguage()))) ? String.valueOf(obj.getLanguage()): String.valueOf(obj.getLabel_template_field_language());
+            String template_name = String.valueOf(obj.getTemplate_name());
+            String template_file_name = String.valueOf(obj.getTemplate_file_name());
+            String language = String.valueOf(obj.getLanguage());
 
 //          call new class  & method e.g. LabelFunction.new(function_name,separator,variable1,variable2).value
-            String data_field_value = new LabelFunction(language,field_name,field_type,separator,variable1,variable2,data_fields,fg_setup,template_custom_data_fields).value;
+            String data_field_value = new LabelFunction(language,field_name,field_type,separator,variable1,variable2,data_fields,fg_setup).value;
             template_data_fields_map.put("F" + position, data_field_value);
 
         }
@@ -526,77 +496,6 @@ public class CartonLabelScan extends ProductLabelScan {
         data.put("F18","");
         data.put("F19",this.getFormattedNowDate());
 
-    }
-
-//    private ArrayList get_treatments(List<PackhouseTreatment> treatment_codes){
-//
-//        ArrayList<String> codes = new ArrayList<String>();
-//        for(PackhouseTreatment obj : treatment_codes){
-//            codes.add(String.valueOf(obj.getTreatment_code()));
-//        }
-//        return codes;
-//    }
-
-    private void get_treatments(List<PackhouseTreatment> treatment_codes){
-
-        ArrayList<String> keys = new ArrayList<String>();
-        for(PackhouseTreatment obj : treatment_codes){
-            if(!keys.contains(String.valueOf(obj.getTreatment_type_code()))){
-                keys.add(String.valueOf(obj.getTreatment_type_code()));
-            }
-        }
-        get_key_treatments(treatment_codes, keys);
-    }
-
-    private void get_key_treatments(List<PackhouseTreatment> treatment_codes,ArrayList<String> keys){
-
-        int key_size = keys.size();
-        for (int i=0; i<key_size; i++){
-            String key = keys.get(i).toString();
-            ArrayList<String> key_values = new ArrayList<String>();
-            for(PackhouseTreatment obj : treatment_codes){
-                if(key.equals(String.valueOf(obj.getTreatment_type_code()))){
-                    key_values.add(String.valueOf(obj.getTreatment_code()));
-                }
-            }
-            String key_method_name = "setConcat_" + String.valueOf(key);
-            invoke_fg_setup_method(key_method_name,key_values);
-        }
-    }
-
-    private void invoke_fg_setup_method(String key_method_name,ArrayList<String> key_values) {
-        if (key_method_name.equalsIgnoreCase("setConcat_treatments")) {
-            this.fg_setup.setConcat_treatments(key_values);
-        }
-        else if (key_method_name.equalsIgnoreCase("setConcat_waxs")) {
-            this.fg_setup.setConcat_waxs(key_values);
-        }
-    }
-
-//    private void invoke_fg_setup_method(String key_method_name,ArrayList<String> key_values){
-//        try {
-//            Class myClass = this.fg_setup.getClass();
-//            Method[] methods = myClass.getMethods();
-//            for (Method method:methods)
-//            {
-//                String method_name=method.getName();
-//                if(method_name.equalsIgnoreCase(key_method_name))
-//                {
-//                    method.setAccessible(true);
-//                    method.invoke(key_values);
-//                }
-//            }
-//        } catch (Exception ex) {
-//        }
-//    }
-
-    private Map get_custom_label_fields(List<CustomLabelField> custom_label_fields){
-
-        Map fields = new HashMap();
-        for(CustomLabelField obj : custom_label_fields){
-            fields.put(String.valueOf(obj.getField_name()),String.valueOf(obj.getField_value()));
-        }
-        return fields;
     }
 
     //==================================================================
