@@ -358,6 +358,8 @@ public class CartonLabelScan extends ProductLabelScan {
         fg_setup.setProduction_run_id(run.getId());
         fg_setup.setShift_id((Integer) shift.get("id"));
         fg_setup.setGln(COMPANY_GLN_PREFIX + run.getGln());
+        fg_setup.setLabeling_rmt_variety(run.getLabeling_rmt_variety());
+
 
 
         Double calculated_mass = ProductLabelingDAO.getCartonCalculatedMass(fg_setup.getFg_product_id());
