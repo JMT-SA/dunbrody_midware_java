@@ -194,7 +194,7 @@ public class CartonLabelScan extends ProductLabelScan {
         if(calculated_mass == null||calculated_mass < 1.00)
         {
             line2 = "Derived Product weight not defined";
-            return String.format(ProductLabelScan.LABEL_ERR,"Derived Product weight not defined","Derived Product weight not defined",line2);
+            return String.format(ProductLabelScan.LABEL_ERR,"Derived Product weight not defined","Derived Product weight not defined",line2,"");
         }
         else
             fg_setup.setCalculated_mass(calculated_mass);
@@ -246,7 +246,7 @@ public class CartonLabelScan extends ProductLabelScan {
 
         this.fg_setup = ProductLabelingDAO.getFgSetup(this.active_device.getSetup_detail_id());
         if (this.fg_setup == null) {
-            return String.format(ProductLabelScan.LABEL_ERR, "No active FG setup was found for DROP code: " + codeCollection[0], "No active FG setup was found for DROP code: " + codeCollection[0], "No active FG setup was found for DROP code: " + codeCollection[0]);
+            return String.format(ProductLabelScan.LABEL_ERR, "No active FG setup was found for DROP code: " + codeCollection[0], "No active FG setup was found for DROP code: " + codeCollection[0], "No active FG setup was found for DROP code: " + codeCollection[0],"");
             //throw new Exception("No active FG setup was found for DROP code: " + codeCollection[0]);
 
 
@@ -366,7 +366,7 @@ public class CartonLabelScan extends ProductLabelScan {
         line2 = active_device.getProduction_run_code();
         if (calculated_mass == null || calculated_mass < 1.00) {
             line2 = "Derived Product weight not defined";
-            return String.format(ProductLabelScan.LABEL_ERR, "Derived Product weight not defined", "Derived Product weight not defined", line2);
+            return String.format(ProductLabelScan.LABEL_ERR, "Derived Product weight not defined", "Derived Product weight not defined", line2,"");
         } else
             fg_setup.setCalculated_mass(calculated_mass);
 
