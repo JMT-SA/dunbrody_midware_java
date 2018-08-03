@@ -12,6 +12,8 @@ import java.sql.Timestamp;
 public class FgSetup {
 
     private Integer id;
+    private Integer customer_variety_id;
+    private String customer_variety_description;
     private Integer fg_product_id;
     private String organization_code; //inc
     private Integer gtin_id;
@@ -423,5 +425,21 @@ public class FgSetup {
 
     public void setLabeling_rmt_variety(String labeling_rmt_variety) {
         this.labeling_rmt_variety = labeling_rmt_variety;
+    }
+
+    public Integer getCustomer_variety_id() {
+        return customer_variety_id;
+    }
+
+    public void setCustomer_variety_id(Integer customer_variety_id) {
+        this.customer_variety_id = customer_variety_id;
+    }
+
+    public String getCustomer_variety_description() {
+        return customer_variety_description;
+    }
+
+    public void setCustomer_variety_description(String customer_variety_description) {
+        this.customer_variety_description = customer_variety_description;
     }
 }
