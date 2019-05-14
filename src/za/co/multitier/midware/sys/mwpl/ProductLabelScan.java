@@ -65,10 +65,6 @@ public abstract class ProductLabelScan extends DeviceScan {
                     " Msg=\"%s\" WeightStatus=\"error\"  Color=\"bold+green\" Yellow=\"true\" Green=\"true\" Red=\"true\" LCD1=\"%s\" LCD2=\"%s\" LCD3=\"\" LCD4=\"\" />";
 
 
-
-
-
-
     protected String ip;
     protected String mass;
     protected String[] codeCollection;
@@ -91,29 +87,26 @@ public abstract class ProductLabelScan extends DeviceScan {
     }
 
 
-    private boolean is_static_label()
-    {
+    private boolean is_static_label() {
 
-       String field_val =  this.active_device.getStatic_label();
-        if(field_val == null)
-            return false ;
+        String field_val = this.active_device.getStatic_label();
+        if (field_val == null)
+            return false;
 
-       if(!is_alternative_label())     //static can only be alternative label
-           return false;
+        if (!is_alternative_label())     //static can only be alternative label
+            return false;
 
         field_val = field_val.toUpperCase();
-        if(field_val.equals("YES")||field_val.equals("Y")||field_val.equals("TRUE")||field_val.equals("T")||field_val.equals("S")||field_val.equals("STATIC"))
-         return true;
+        if (field_val.equals("YES") || field_val.equals("Y") || field_val.equals("TRUE") || field_val.equals("T") || field_val.equals("S") || field_val.equals("STATIC"))
+            return true;
         else
             return false;
 
     }
 
 
-
-    protected boolean is_alternative_label()
-    {
-        if(this.robot_button.equals("4"))
+    protected boolean is_alternative_label() {
+        if (this.robot_button.equals("4"))
             return true;
         else
             return false;
@@ -140,7 +133,7 @@ public abstract class ProductLabelScan extends DeviceScan {
         }
 
 
-        return String.format(ProductLabelScan.LABEL_ERR, e1,e1, e2, e3);
+        return String.format(ProductLabelScan.LABEL_ERR, e1, e1, e2, e3);
 
     }
 
@@ -168,7 +161,7 @@ public abstract class ProductLabelScan extends DeviceScan {
     }
 
 
-    protected String createQcLabelMsgString(String msg,String weigh_result) {
+    protected String createQcLabelMsgString(String msg, String weigh_result) {
         String e1 = "";
         String e2 = "";
         String e3 = "";
@@ -188,14 +181,13 @@ public abstract class ProductLabelScan extends DeviceScan {
 
 
         String result_command_type = "";
-        if(weigh_result.equals("normal"))
+        if (weigh_result.equals("normal"))
             result_command_type = ProductLabelScan.QC_WEIGH_LABEL_OK_MSG;
-        else if  (weigh_result.equals("over"))
-            result_command_type = ProductLabelScan.QC_WEIGH_LABEL_OVER_MSG ;
+        else if (weigh_result.equals("over"))
+            result_command_type = ProductLabelScan.QC_WEIGH_LABEL_OVER_MSG;
         else if (weigh_result.equals("under"))
-            result_command_type =  ProductLabelScan.QC_WEIGH_LABEL_UNDER_MSG;
-        else
-        {
+            result_command_type = ProductLabelScan.QC_WEIGH_LABEL_UNDER_MSG;
+        else {
             result_command_type = ProductLabelScan.QC_WEIGH_LABEL_ERR_MSG;
             e2 = "No Weight Range";
         }
@@ -258,7 +250,7 @@ public abstract class ProductLabelScan extends DeviceScan {
 
         //extract robot button
         if (code.substring(code.length() - 2, code.length() - 1).equals("B"))
-            robot_button =   code.substring(code.length() - 1, code.length());
+            robot_button = code.substring(code.length() - 1, code.length());
 
         //cater for robot labeling where the pressed button is appended to robot name
         //remove the 'BX' part from code and retry the finding of active device in case users associates
@@ -266,13 +258,12 @@ public abstract class ProductLabelScan extends DeviceScan {
         if (this.active_device == null) {
 
             if (code.substring(code.length() - 2, code.length() - 1).equals("B")) {
-                robot_button =   code.substring(code.length() - 1, code.length());
+                robot_button = code.substring(code.length() - 1, code.length());
                 code = code.substring(0, code.length() - 2);
                 this.active_device = DevicesDAO.getActiveDevice(code);
 
             }
         }
-
 
 
         if (this.active_device != null)
@@ -286,8 +277,7 @@ public abstract class ProductLabelScan extends DeviceScan {
     }
 
 
-    protected boolean is_robot_button_disabled()
-    {
+    protected boolean is_robot_button_disabled() {
         return false;
 
 //        if(this.robot_button == null||this.robot_button.toUpperCase().equals("NONE"))
@@ -305,7 +295,6 @@ public abstract class ProductLabelScan extends DeviceScan {
 //        }
 
 
-
     }
 
     protected String build_label() throws Exception {
@@ -315,27 +304,22 @@ public abstract class ProductLabelScan extends DeviceScan {
             Map label_data = this.label_data;  //set by subclass
             String template_file_name = this.template_name; //default template
 
-            if(this.is_alternative_label())
-            {
-                if(this.active_device.getAdditional_template_name() == null||this.active_device.getAdditional_template_name().trim().equals(""))
+            if (this.is_alternative_label()) {
+                if (this.active_device.getAdditional_template_name() == null || this.active_device.getAdditional_template_name().trim().equals(""))
                     throw new Exception("Button 4 pressed, but no additional template defined for drop: " + this.active_device.getResource_code());
 
                 template_file_name = ProductLabelingDAO.getTemplateFileName(this.active_device.getAdditional_template_name());
-                if(template_file_name == null ||template_file_name.trim().equals("") )
+                if (template_file_name == null || template_file_name.trim().equals(""))
                     throw new Exception("Button 4 pressed, but no template file defined for additional template(" + this.active_device.getAdditional_template_name() +
-                           "). Drop is:  " + this.active_device.getResource_code());
+                            "). Drop is:  " + this.active_device.getResource_code());
 
 
-
-
-            }
-            else
-            {
-               if(this.active_device.getTemplate_name() == null||this.active_device.getTemplate_name().trim().equals(""))
+            } else {
+                if (this.active_device.getTemplate_name() == null || this.active_device.getTemplate_name().trim().equals(""))
                     throw new Exception("No template defined for drop: " + this.active_device.getResource_code());
 
                 template_file_name = ProductLabelingDAO.getTemplateFileName(this.active_device.getTemplate_name());
-                if(template_file_name == null ||template_file_name.trim().equals("") )
+                if (template_file_name == null || template_file_name.trim().equals(""))
                     throw new Exception("No template file defined for template(" + this.active_device.getTemplate_name() +
                             "). Drop is:  " + this.active_device.getResource_code());
 
@@ -349,7 +333,7 @@ public abstract class ProductLabelScan extends DeviceScan {
 
             int n_fields = label_data.size();
 
-            if(!this.is_static_label()) {
+            if (!this.is_static_label()) {
                 for (int i = 1; i <= n_fields; i++) {
                     String key = "F" + new Integer(i).toString();
                     String val = "";
@@ -372,8 +356,7 @@ public abstract class ProductLabelScan extends DeviceScan {
     }
 
 
-    protected void build_alternative_label(StringBuilder label_instruction)
-    {
+    protected void build_alternative_label(StringBuilder label_instruction) {
 
     }
 
@@ -383,7 +366,7 @@ public abstract class ProductLabelScan extends DeviceScan {
 
 	
 	/*==========================================================================================
-	 *This is a template method that controls the server side process of label printing
+     *This is a template method that controls the server side process of label printing
 	 *Label printing sub classes must implement two methods in this algorythm:
 	 *1)setLabelData() {fetch data to be printed and create the F1..F(n) series of field-value 
 	 *                  pairs as a Map data structure}
@@ -404,7 +387,7 @@ public abstract class ProductLabelScan extends DeviceScan {
                 return createLabelErrString("Ctn : " + this.codeCollection[0] + " already verified");
             else {
 
-               String weigh_result = ProductLabelingDAO.createCartonFromLabel(label, this.mass);
+                String weigh_result = ProductLabelingDAO.createCartonFromLabel(label, this.mass);
                 ProductLabelingDAO.updateCartonRunStatsQc(label);
 
                 return createQcLabelMsgString("Carton verified", weigh_result);
@@ -430,7 +413,8 @@ public abstract class ProductLabelScan extends DeviceScan {
             if (is_robot_button_disabled())
                 return createLabelErrString("Btn: " + this.robot_button + " is disabled");
 
-            err = this.setLabelData(); //subclass must fetch and set label data in Map format (and store in 'label_data' member variable)
+            if (!this.is_static_label())
+                err = this.setLabelData(); //subclass must fetch and set label data in Map format (and store in 'label_data' member variable)
 
 
             if (err != null)
