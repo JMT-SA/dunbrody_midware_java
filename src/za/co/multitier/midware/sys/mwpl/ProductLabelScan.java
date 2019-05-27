@@ -246,6 +246,7 @@ public abstract class ProductLabelScan extends DeviceScan {
 
     protected boolean isDeviceActive() throws Exception {
         String code = this.codeCollection[0];
+        String alt_code = "";
         this.active_device = DevicesDAO.getActiveDevice(code);
 
         //extract robot button
@@ -259,10 +260,20 @@ public abstract class ProductLabelScan extends DeviceScan {
 
             if (code.substring(code.length() - 2, code.length() - 1).equals("B")) {
                 robot_button = code.substring(code.length() - 1, code.length());
-                code = code.substring(0, code.length() - 2);
-                this.active_device = DevicesDAO.getActiveDevice(code);
+                alt_code = code.substring(0, code.length() - 2);
+                this.active_device = DevicesDAO.getActiveDevice(alt_code);
 
             }
+        }
+
+        //cater for alternative label- use B1 as the product spec
+        if (this.active_device == null && is_alternative_label()) {
+
+
+                code = code.substring(0, code.length() - 2) + "B1";
+                this.active_device = DevicesDAO.getActiveDevice(code);
+
+
         }
 
 
