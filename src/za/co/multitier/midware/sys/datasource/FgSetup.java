@@ -60,6 +60,7 @@ public class FgSetup {
     private String orchard_code;
     private String pack_point;
     private String labeling_rmt_variety;
+    private String day_of_year;
 
 
 
@@ -441,5 +442,13 @@ public class FgSetup {
 
     public void setCustomer_variety_description(String customer_variety_description) {
         this.customer_variety_description = customer_variety_description;
+    }
+
+    public String getDay_of_year() {
+        return day_of_year;
+    }
+
+    public void setDay_of_year(String day_of_year) {
+        this.day_of_year = day_of_year;
     }
 }

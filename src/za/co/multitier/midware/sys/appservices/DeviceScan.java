@@ -12,6 +12,7 @@ package za.co.multitier.midware.sys.appservices;
 import java.io.InputStream;
 import java.net.URL;
 import java.text.DateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Properties;
@@ -60,6 +61,15 @@ public class DeviceScan
    {
 
    }
+
+	public static String get_day_of_year()
+	{
+
+		Calendar calendar = Calendar.getInstance();
+		int dayOfYear = calendar.get(Calendar.DAY_OF_YEAR);
+		return Integer.toString(dayOfYear);
+
+	}
 
 
    public static String calc_checkdigitSSCC(String barcode )

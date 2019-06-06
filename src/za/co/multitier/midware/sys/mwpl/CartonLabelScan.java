@@ -343,6 +343,7 @@ public class CartonLabelScan extends ProductLabelScan {
             fg_setup.setPack_point(this.codeCollection[0]);
         }
 
+        fg_setup.setDay_of_year(DeviceScan.get_day_of_year());
         fg_setup.setPacker_barcode(this.codeCollection[1]);
         fg_setup.setFg_setup_id(fg_setup.getId());
         fg_setup.setPick_reference(this.pick_ref);
